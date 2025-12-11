@@ -81,6 +81,13 @@ body.bg-desktop{
   background: url("assets/background/bg-desktop.png") center top/cover no-repeat;
 }
 
+/* Tablet override */
+@media (min-width: 769px) and (max-width: 1024px){
+  body.bg-desktop{
+    background: url("assets/background/bg-tablet.png") center top/cover no-repeat;
+  }
+}
+
 /* Mobile override */
 @media (max-width: 768px){
   body.bg-desktop{
@@ -1733,10 +1740,173 @@ section.reef .layer {
     .nav.open .hamburger span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 }
 
+/* TABLET YUH */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .intro {
+    position: absolute;
+    top: 20vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 72vw;
+    padding: 0;
+    text-align: left;
+    z-index: var(--z-intro);
+  }
 
+  /* EVENT TITLE: "Women of Informatics’ 14th Annual Hackathon" */
+  .intro h1 {
+    margin-bottom: 1rem;
+    font-size: clamp(2.6rem, 8vw, 3.2rem);  /* MUCH bigger */
+    line-height: 1.2;
+  }
 
+  /* DATE + LOCATION: "January 24–25, 2026" / "UNIVERSITY OF WASHINGTON HUB" */
+  header.hero .meta {
+    margin-top: 1.5rem !important;
+    font-size: clamp(1.05rem, 3.6vw, 1.25rem);  /* increase size */
+    row-gap: 10px;
+  }
 
-@media (max-width: 768px){
+  .intro .btn-primary {
+    margin-top: 2rem !important;
+    padding: 18px 50px;
+    font-size: 17px;
+  }
+
+  /* optionally, to make meta labels a lil bolder */
+  header.hero .meta span,
+  header.hero .meta div {
+    font-weight: 600;
+    font-size: 17px !important;
+  }
+
+  /* keep cat smaller + lower */
+  .hero-figure .cat {
+    top: 50vh;
+    left: 30%;
+    width: 65vw;
+    min-width: 0;
+    margin-left: -27.5vw;
+  }
+
+  .froth .water {
+    top: 51%;
+  }
+
+  .surface .water {
+    top: 53%;
+  }
+
+  .surface .rainbow {
+    top: 35%;
+    width: 50vw;
+  }
+
+  .dive-in {
+    top: -70vh;
+    width: 87vw;
+  }
+
+  .dive-in h1 {
+    font-size: 6vw !important;
+  }
+
+  .dive-in p {
+    font-size: 2.7vw !important;
+  }
+
+  .mola .fish {
+    top: -12vh;
+    right: 10vw;
+    width: 40vw;
+  }
+
+  .rays .beams {
+    top: -60%;
+    height: 150vh;
+    right: 5vw;
+  }
+
+  .theme-content {
+    top: -35vh;
+  }
+
+  .content {
+    width: 87vw;
+  }
+
+  .content h1 {
+    font-size: 6vw !important;
+  }
+
+  .content p {
+    font-size: 2.7vw !important;
+  }
+
+  section.reef {
+    min-height: 50vh;
+  }
+
+  .school .sprite {
+    top: -16vh;
+    left: 18vw;
+    width: 35vw;
+    min-width: 100px;
+  }
+
+  .decor-fish .blue {
+    top: 6vh;
+    left: 32vw;
+    width: 12vw;
+    min-width: 20px;
+  }
+
+  .decor-fish .clown {
+    top: 11vh;
+    left: 40vw;
+    width: 6vw;
+    min-width: 10px;
+  }
+
+  .decor-fish .trigger {
+    top: -7vh;
+    right: 13vw;
+    width: 14vw;
+    min-width: 25px;
+  }
+
+  .reefs .left {
+    bottom: 6vh;
+    left: 0;
+    width: 58vw;
+    min-width: 100px;
+  }
+
+  .reefs .right {
+    bottom: 5vh;
+    right: 0;
+    width: 34vw;
+    min-width: 100px;
+  }
+
+  .rocks .shelf {
+    bottom: 0;
+  }
+
+  .shark .leo {
+    bottom: 9vh;
+    left: 15vw;
+    width: 45vw;
+    min-width: 120px;
+  }
+
+  .decor-crab {
+    display: none !important;
+  }
+}
+
+/* MOBILE YUH */
+@media (max-width: 768px) {
   .intro {
     position: absolute;
     top: 18vh;
@@ -1762,7 +1932,7 @@ section.reef .layer {
     row-gap: 6px;
   }
 
-  /* optionally, make those meta labels a bit bolder */
+  /* optionally, to make meta labels a lil bolder */
   header.hero .meta span,
   header.hero .meta div {
     font-weight: 600;
@@ -1792,7 +1962,7 @@ section.reef .layer {
   }
 
   .dive-in {
-    top: -90vw;
+    top: -60vh;
   }
 
   .dive-in h1 {
@@ -1804,8 +1974,8 @@ section.reef .layer {
   }
 
   .mola .fish {
-    top: 10%;
-    right: 30vw;
+    top: 15vh;
+    right: 20vw;
   }
 
   .rays .beams {
@@ -1815,7 +1985,7 @@ section.reef .layer {
   }
 
   .theme-content {
-    top: -15vw;
+    top: -15vh;
   }
 
   .content h1 {
@@ -1827,32 +1997,32 @@ section.reef .layer {
   }
 
   section.reef {
-    min-height: 75vh;
+    min-height: 50vh;
   }
 
   .school .sprite {
-    top: 13vh;
+    top: -4vh;
     left: 18vw;
     width: 35vw;
     min-width: 100px;
   }
 
   .decor-fish .blue {
-    top: 34vh;
+    top: 9vh;
     left: 32vw;
     width: 12vw;
     min-width: 20px;
   }
 
   .decor-fish .clown {
-    top: 38vh;
+    top: 13vh;
     left: 40vw;
     width: 6vw;
     min-width: 10px;
   }
 
   .decor-fish .trigger {
-    top: 21vh;
+    top: 3vh;
     right: 13vw;
     width: 12vw;
     min-width: 20px;
@@ -1884,6 +2054,6 @@ section.reef .layer {
   }
 
   .decor-crab {
-    display: none;
+    display: none !important;
   }
 }
