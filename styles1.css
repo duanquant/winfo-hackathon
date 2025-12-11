@@ -1463,71 +1463,62 @@ section.reef .layer {
   width: 100%;
 }
 
-/* ---- Sponsors marquee panel ---- */
-.sponsors{
+/* ---- Sponsors ---- */
+.sponsors {
   position: relative;
   z-index: 2;
   max-width: 100%;
 }
 
-.sponsors-panel{
-  margin: 500px 0 32px;
+.sponsors-panel {
+  margin: 550px 0 100px;
   border-radius: 24px;
   padding: 18px 10px;
   overflow: hidden;
   width: 100%;
 }
 
-.sponsors + .sponsors .sponsors-panel{
-  margin-top: 0px;
-}
-
-.sponsors-marquee{
-  width: 100%;
-  overflow: hidden;
-}
-
-.sponsors-track{
+/* Flex-based sponsor layout */
+.sponsors-grid {
   display: flex;
-  gap: 50px;
-  align-items: center;
-  will-change: transform;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 40px;   /* space between cards horizontally */
+  row-gap: 35px;      /* space between rows */
+  margin: 0 auto;
+  max-width: 80vw;
 }
 
-.sponsor-card{
-  flex: 0 0 360px;
+/* Cards: same height, width based on logo size */
+.sponsor-card {
+  height: 170px;                /* all cards same height */
+  padding: 3px 10px;           /* breathing room around logos */
+
   background: #ffffff;
-  border-radius: 18px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  flex: 0 0 auto;               /* <- width = intrinsic, do NOT stretch */
+  width: auto;
 }
 
-.sponsor-card img{
-  max-width: 100%;
-  height: auto;
+.sponsor-card img {
+  height: 90%;        /* fills most of the card height */
+  width: auto;        /* keep aspect ratio */
+  max-width: 100%;    /* don’t overflow card */
+  object-fit: contain;
   display: block;
 }
 
-/* marquee animations */
-@keyframes sponsors-scroll-left{
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-@keyframes sponsors-scroll-right{
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
-}
-
-/* first sponsors block: scroll left */
-.sponsors:nth-of-type(1) .sponsors-track{
-  animation: sponsors-scroll-left 24s linear infinite;
-}
-
-/* second sponsors block: scroll right */
-.sponsors:nth-of-type(2) .sponsors-track{
-  animation: sponsors-scroll-right 24s linear infinite;
+/* Tablet / mobile: tighter width so it tends to wrap into ~2 per row */
+@media (max-width: 1024px) {
+  .sponsors-grid {
+    max-width: 700px;    /* usually gives 2 cards per row */
+  }
 }
 
 
