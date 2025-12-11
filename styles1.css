@@ -1514,10 +1514,30 @@ section.reef .layer {
   display: block;
 }
 
-/* Tablet / mobile: tighter width so it tends to wrap into ~2 per row */
+/* Tablet: tighter width so it tends to wrap into ~2 per row */
 @media (max-width: 1024px) {
   .sponsors-grid {
-    max-width: 700px;    /* usually gives 2 cards per row */
+    max-width: 80vw;    /* usually gives 2 cards per row */
+  }
+
+  .sponsor-card {
+    height: 140px;
+    padding: 2px 4px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .sponsors-grid {
+    column-gap: 15px;   /* space between cards horizontally */
+    row-gap: 15px;      /* space between rows */
+    max-width: 80vw;
+  }
+
+  .sponsor-card {
+    height: 65px;
+    padding: 2px 4px;
+    border-radius: 7px;
   }
 }
 
