@@ -24,10 +24,10 @@
   /* water surface sits on top of the hero */
   --z-hero: 26;
   /* cat/buoy */
-  --z-rainbow: 20;
-  /* rainbow accent, under surface */
-  --z-intro: 18;
+  --z-intro: 20;
   /* hero headline/copy */
+  --z-rainbow: 18;
+  /* rainbow accent, under surface */
   --z-divein: 17;
   /* ready to dive in text */
   --z-theme: 16;
@@ -935,7 +935,7 @@ section.reef .layer {
   min-height: calc(180vh + var(--cave-extra));
   background: #233137;
   /* baseline bg color, overriden with gradient below */
-  color: #eaf3f6;
+  color: #E7F7FA;
   overflow-x: hidden;
   overflow-y: visible;
 
@@ -1074,7 +1074,6 @@ section.reef .layer {
   align-items: center;
   column-gap: 10px;
   row-gap: 8px;
-  color: rgba(234, 243, 246, .85);
   font-size: 14px;
   letter-spacing: .04em;
   text-transform: uppercase;
@@ -1095,12 +1094,11 @@ section.reef .layer {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-left: 1px solid rgba(255, 255, 255, .16);
 }
 
 .timeline li {
   position: relative;
-  padding: 14px 0 14px 22px;
+  padding: 10px 0; 
   display: grid;
   grid-template-columns: 110px 1fr;
   /* time column + event column */
@@ -1112,32 +1110,21 @@ section.reef .layer {
 }
 
 .timeline li::before {
-  content: "";
-  position: absolute;
-  left: -7px;
-  top: 22px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #8ed4e9;
-  box-shadow: 0 0 0 4px rgba(142, 212, 233, .18);
+  content: none;
 }
 
 .timeline .time {
-  color: #a9c6d1;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: .05em;
 }
 
 .timeline .evt {
-  color: #f3fbfe;
   font-size: 16px;
   line-height: 1.6;
 }
 
 .timeline .highlight .evt {
-  color: #ffdf94;
   font-weight: 600;
 }
 
