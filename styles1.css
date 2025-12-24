@@ -789,13 +789,6 @@ section.reef .layer {
   align-items: baseline;
 }
 
-.track .num {
-  font-family: 'brother-1816-printed', sans-serif;
-  font-size: 32px;
-  font-weight: 500;
-  line-height: 1;
-}
-
 .track h2 {
   margin: 0;
   font-size: 24px;

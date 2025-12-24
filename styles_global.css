@@ -37,6 +37,13 @@
     line-height: 1.2;
     margin: 0 0 .6rem;
   }
+
+  .track .num {
+    font-family: 'brother-1816-printed', sans-serif;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1;
+  }
   
   h3 {
     font-family: 'brother-1816-printed', sans-serif;
@@ -77,12 +84,15 @@ a {
       font-size: 18px;
     }
     h2 {
-        font-size: 35px;
+      font-size: 35px;
     }
     h3 {
-        font-size: 24px;
+      font-size: 24px;
+    }
+    .track .num {
+      font-size: 24px;
     }
     .caption {
-        font-size: 12px;
+      font-size: 12px;
     }
   }
