@@ -1893,7 +1893,10 @@ section.reef .layer {
   /* 1) Give the whole section the Prize Tracks bg */
   .midnight,
   .midnight::before{
-    background: #1e262d;
+    background: linear-gradient(180deg,
+      #1e262d 37%,
+      #233137 23%,
+      #101417 40%);
   }
   .midnight::before{
     /* kill the dark gradient overlay on tablet/mobile */
@@ -1963,7 +1966,7 @@ section.reef .layer {
   }
 
   .faq {
-    margin-top: 34vh; /* adjust as needed */
+    margin-top: 35vh; /* adjust as needed */
     padding: 120px 0 100px;
   }
 
@@ -1973,6 +1976,24 @@ section.reef .layer {
 
   .faq .content {
     max-width: 720px;
+  }
+
+  .ocean.bottom {
+    background: #101417;
+    min-height: 50vh;
+  }
+
+  .footer-fish {
+    top: 10vh;
+  }
+
+  .footer-sand{
+    position: absolute;
+    top: -10vh;              /* slightly overlapping from above */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    z-index: 0;
   }
 
 }
@@ -2199,5 +2220,14 @@ section.reef .layer {
   #schedulesInner{
     transform: none !important;
     will-change: auto;
+  }
+
+  .faq {
+    margin-top: 35vh; /* adjust as needed */
+    padding: 120px 0 100px;
+  }
+
+  .faq-grid {
+    grid-template-columns: 1fr !important;
   }
 }
