@@ -464,7 +464,7 @@ section.midwater .layer {
 }
 
 .video-wrap {
-  width: min(720px, 90%);
+  width: min(720px, 100%);
   /* responsive: cap at 720px or 90% of container */
   aspect-ratio: 16/9;
   /* maintain video aspect ratio */
@@ -1541,6 +1541,7 @@ section.reef .layer {
 .footer-left .made{
   margin: 0;
   font-size: 14px;
+  margin-top: 10px;
 }
 
 /* right side: social icons row + copyright row */
