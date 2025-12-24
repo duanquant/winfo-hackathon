@@ -985,8 +985,8 @@ section.reef .layer {
 .midnight-art .tuna {
   position: absolute;
   right: 12vw;
-  bottom: 250vh;
-  width: 450px;
+  bottom: 120vh;
+  width: 500px;
   opacity: .85;
 }
 
@@ -2008,6 +2008,21 @@ section.reef .layer {
     transform: translateX(-50%);
     width: 100%;
     z-index: 0;
+  }
+
+  .midnight-art .jellies {
+    position: absolute;
+    left: 15vw;
+    top: 40vh;
+    width: 180px;
+    opacity: .85;
+  }
+
+  .midnight-art .tuna {
+    position: absolute;
+    right: 12vw;
+    bottom: 2vh;
+    width: 350px;
   }
 
 }
