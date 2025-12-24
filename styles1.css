@@ -1372,16 +1372,22 @@ section.reef .layer {
 
 @media (max-width: 640px) {
   .countdown {
-    flex-wrap: wrap;
-    row-gap: 18px;
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+
+  .countdown .unit { 
+    padding: 12px 0px 10px; 
+    min-width: 40px; 
+  }
+
+  .countdown strong { 
+    font-size: 32px; 
   }
 
   .countdown .sep {
-    display: none;
-  }
-
-  .countdown .unit {
-    min-width: 120px;
+    display: inline;
+    font-size: 28px !important;
   }
 }
 
@@ -1978,6 +1984,10 @@ section.reef .layer {
     max-width: 720px;
   }
 
+  .faq-grid summary {
+    font-size: 20px !important;
+  }
+
   .ocean.bottom {
     background: #101417;
     min-height: 50vh;
@@ -2229,5 +2239,31 @@ section.reef .layer {
 
   .faq-grid {
     grid-template-columns: 1fr !important;
+  }
+
+  .faq .content {
+    max-width: 430px;
+  }
+
+  .faq-grid summary {
+    font-size: 20px !important;
+  }
+
+  .ocean.bottom {
+    background: #101417;
+    min-height: 50vh;
+  }
+
+  .footer-fish {
+    top: 10vh;
+  }
+
+  .footer-sand{
+    position: absolute;
+    top: -10vh;              /* slightly overlapping from above */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    z-index: 0;
   }
 }
