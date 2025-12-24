@@ -1,0 +1,88 @@
+:root {
+    --ink: #0b3039;
+    --ink-soft: #214650;       /* softer secondary text color */
+}
+/* ---------- Base ---------- */
+* {
+    box-sizing: border-box;
+    /* padding/border are included in width/height */
+  }
+  
+  html,
+  body {
+    height: 100%;
+    /* allow 100vh calculations to work as expected */
+  }
+  
+  body {
+    margin: 0;
+    /* remove default page margin */
+    color: var(--ink);
+    /* use the main text color */
+    background: url("assets/background/bg.png") center top / cover no-repeat;
+    background-color: white;
+    font-family: 'brother-1816', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+  
+  
+  h2 {
+    font-family: 'brother-1816-printed', sans-serif;
+    font-size: 43px;
+    font-style: italic;
+    font-weight: 500;
+    font-feature-settings: "calt" 1, "ordn" 1, "swsh" 1;
+    line-height: 1.2;
+    margin: 0 0 .6rem;
+  }
+  
+  h3 {
+    font-family: 'brother-1816-printed', sans-serif;
+    font-size: 32px;
+    font-weight: 500;
+    font-feature-settings: "calt" 1, "ordn" 1, "swsh" 1;
+  }
+  
+  p {
+    margin: 1.5rem 0;
+    /* vertical rhythm for paragraphs */
+    font-size: 20px;
+  }
+
+a {
+    color: inherit;
+}
+
+.caption {
+    font-size: 15px;
+    /* small label style */
+    letter-spacing: 120%;
+    /* slight tracking for uppercase */
+    text-transform: uppercase;
+    /* label look */
+    color: var(--ink-soft);
+    /* softer tone */
+    margin-top: 8px;
+    /* space from element above */
+    font-style: bold;
+    font-weight: 700;
+    font-feature-settings: 'calt' off;
+    line-height: 150%; /* 22.5px */
+  }
+
+  @media (max-width: 599px) {
+    p {
+      font-size: 18px;
+    }
+    h2 {
+        font-size: 35px;
+    }
+    h3 {
+        font-size: 24px;
+    }
+    .caption {
+        font-size: 12px;
+    }
+  }
