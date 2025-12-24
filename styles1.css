@@ -1501,6 +1501,10 @@ section.reef .layer {
     max-width: 80vw;    /* usually gives 2 cards per row */
   }
 
+  .sponsors-panel {
+    margin: 300px 0 100px;
+  }
+
   .sponsor-card {
     height: 140px;
     padding: 2px 4px;
@@ -1901,7 +1905,7 @@ section.reef .layer {
   .midnight::before{
     background: linear-gradient(180deg,
       #1e262d 37%,
-      #233137 23%,
+      #2c4045 23%,
       #101417 40%);
   }
   .midnight::before{
