@@ -260,6 +260,10 @@ header.hero .layer {
   /* clicks pass through (they’re decorative) */
 }
 
+header.hero .intro { 
+  z-index: 100; 
+}
+
 .layer>.sprite,
 .wrap img.sprite {
   position: absolute;
@@ -1445,7 +1449,7 @@ section.reef .layer {
 }
 
 .sponsors-panel {
-  margin: 550px 0 100px;
+  margin: 650px 0 100px;
   border-radius: 24px;
   padding: 18px 10px;
   overflow: hidden;
@@ -1551,10 +1555,11 @@ section.reef .layer {
   align-items: flex-end;
   gap: 6px;
   text-align: right;
+  margin-left: auto;
 }
 
 .footer .socials{
-  display:flex;
+  display: flex;
   gap: 12px;
   margin: 0;
 }
