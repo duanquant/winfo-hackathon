@@ -771,7 +771,6 @@ section.reef .layer {
   /* LEFT column (numbers/titles), RIGHT column (copy) */
   align-items: start;
   column-gap: 48px;
-  padding: 36px 0;
   border-top: 1px solid rgba(255, 255, 255, .15);
 }
 
@@ -804,6 +803,7 @@ section.reef .layer {
 .track-content {
   margin: 0;
   max-width: 100%;
+  padding: 36px 0;
 }
 
 .track p {

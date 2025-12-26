@@ -1,0 +1,486 @@
+/* ---------- TOKENS ---------- */
+:root {
+    --ink: #0b3039;
+    /* main text color used across the page */
+    --ink-soft: #214650;
+    /* softer secondary text color */
+    --maxw: 820px;
+    /* max readable width for text blocks */
+    --pin-extra: 2500px;
+    --hero-h: 150vh;
+    --mid-h: 80vh;
+    --reef-h: 250vh;
+    --theme-offset: 20vh;
+    /* how far down the theme block sits */
+    --rays: 5vh;
+    /* "Named" z-index layers so stacking is easy to reason about */
+    --z-birds: 30;
+    /* birds float above most things */
+    --z-froth: 28;
+    --z-surface: 27;
+    /* water surface sits on top of the hero */
+    --z-hero: 26;
+    /* cat/buoy */
+    --z-intro: 20;
+    /* hero headline/copy */
+    --z-rainbow: 18;
+    /* rainbow accent, under surface */
+    --z-divein: 17;
+    /* ready to dive in text */
+    --z-theme: 16;
+    /* theme text/video */
+    --z-fish: 14;
+    /* small decorative fish */
+    --z-school: 13;
+    /* school of fish */
+    --z-cutoff: 12;
+    --z-reefs: 11;
+    /* reef coral clusters */
+    --z-shark: 10;
+    /* shark silhouette */
+    --z-rocks: 9;
+    /* foreground rock shelf/footer */
+    --z-mola: 8;
+    /* mola mola */
+    --z-rays: 6;
+    /* sunbeams */
+    --z-clouds: 5;
+    /* clouds behind everything else */
+    --z-bg: 1;
+    /* background fallback */
+}
+
+/* ---------- BASE ---------- */
+* {
+    box-sizing: border-box;
+    /* padding/border are included in width/height */
+}
+
+html,
+body {
+    height: 100%;
+    /* allow 100vh calculations to work as expected */
+}
+
+body {
+    margin: 0;
+    /* remove default page margin */
+    color: var(--ink);
+    /* use the main text color */
+    background-color: white;
+    font-family: 'brother-1816', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+/* Desktop default */
+body.bg-desktop {
+    background: url("assets/background/bg-desktop.png") center top/cover no-repeat;
+}
+
+/* Tablet override */
+@media (min-width: 769px) and (max-width: 1024px) {
+    body.bg-desktop {
+        background: url("assets/background/bg-tablet.png") center top/cover no-repeat;
+    }
+}
+
+/* Mobile override */
+@media (max-width: 768px) {
+    body.bg-desktop {
+        background: url("assets/background/bg-mobile.png") center top/cover no-repeat;
+    }
+}
+
+.background {
+    top: 0;
+    width: 100%;
+}
+
+/* Utility */
+.wrap {
+    position: relative;
+    /* create positioning context for absolute children */
+    width: 100%;
+    /* full-width section */
+    min-height: 100vh;
+    /* each section at least one viewport tall */
+}
+
+/* ---------- NAVIGATION ---------- */
+.nav {
+    position: fixed;
+    z-index: 9999;
+    width: 100%;
+}
+
+/* Hide mobile-only controls by default (desktop & tablet) */
+.nav-toggle,
+.nav-backdrop {
+    display: none;
+}
+
+.nav-wrapper {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 10px 18px;
+    border-radius: 1000px;
+    font-family: "brother-1816";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    border-radius: 1000px;
+    border: 1px solid #DDE6EB;
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
+    display: flex;
+    flex-direction: row;
+    margin: 1% auto 0 auto;
+    padding: 1% 2%;
+    width: 90%;
+    justify-content: center;
+}
+
+.nav-item {
+    flex: 0 1 8%;
+    text-align: center;
+    position: relative;
+    text-decoration: none;
+    color: #0b3039;
+    /* explicit base color to enable smooth transition */
+    cursor: pointer;
+    transition: font-weight 0.2s ease, color 0.4s ease;
+}
+
+/* Underline indicator */
+.nav-item::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    /* closer to text */
+    transform: translateX(-50%) scaleX(0);
+    width: 80%;
+    height: 2px;
+    /* thinner underline */
+    background: #0b3039;
+    /* base underline color */
+    border-radius: 2px;
+    transition: transform 0.3s ease, background-color 0.4s ease;
+    transform-origin: center;
+}
+
+/* Active state */
+.nav-item.active,
+.nav-item[aria-current="true"] {
+    font-weight: 700;
+}
+
+.nav-item.active::after,
+.nav-item[aria-current="true"]::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+/* Hover state */
+.nav-item:hover {
+    font-weight: 600;
+}
+
+.nav-item:hover::after {
+    transform: translateX(-50%) scaleX(0.5);
+    opacity: 0.5;
+}
+
+.nav-item.active:hover::after,
+.nav-item[aria-current="true"]:hover::after {
+    transform: translateX(-50%) scaleX(1);
+    opacity: 1;
+}
+
+/* Invert mode: when nav sits over dark background */
+.nav.invert .nav-item,
+.nav-wrapper.invert .nav-item {
+    color: #ffffff;
+}
+
+.nav.invert .nav-item::after,
+.nav-wrapper.invert .nav-item::after {
+    background: #ffffff;
+}
+
+/* ---------- HERO (sky + surface) ---------- */
+header.hero {
+    min-height: var(--hero-h);
+    /* hero fills the first screen */
+}
+
+header.hero .layer {
+    position: absolute;
+    /* layer fills the hero section */
+    inset: 0;
+    /* shorthand: top/right/bottom/left: 0 */
+    pointer-events: none;
+    /* clicks pass through (they’re decorative) */
+}
+
+.layer>.sprite,
+.wrap img.sprite {
+    position: absolute;
+    /* every sprite can be placed with top/right/etc. */
+    display: block;
+    /* remove inline gaps */
+    pointer-events: none;
+    /* decorative; no mouse events */
+    user-select: none;
+    /* can’t select the image like text */
+    -webkit-user-drag: none;
+    /* prevents drag ghost in WebKit browsers */
+}
+
+/* clouds */
+.clouds {
+    z-index: var(--z-clouds);
+    /* place behind most foreground items */
+}
+
+.clouds img {
+    inset: auto;
+    /* clear previous inset so we can set only top/left */
+    top: 0;
+    /* pin top edge */
+    left: 0;
+    /* pin left edge */
+    width: 100%;
+    /* stretch clouds art across the viewport width */
+    height: auto;
+}
+
+/* birds */
+.birds {
+    z-index: var(--z-birds);
+    /* high layer so birds sit above scene */
+}
+
+.birds .left {
+    top: 5%;
+    /* position from top using viewport height */
+    left: 4vw;
+    /* position from left using viewport width */
+    width: 18vw;
+    /* scale with viewport width */
+    min-width: 100px;
+    /* don’t get smaller than this */
+}
+
+.birds .right {
+    top: 20vh;
+    right: 6vw;
+    /* anchor to right edge */
+    width: 8vw;
+    min-width: 100px;
+}
+
+/* froth */
+.froth {
+    z-index: var(--z-froth);
+    /* sits above cat/buoy due to higher z-index */
+}
+
+.froth .water {
+    top: 45%;
+    /* waterline vertical position */
+    left: 0;
+    /* span from the left */
+    width: 100%;
+    /* full width ripple strip */
+}
+
+/* surface & rainbow */
+.surface {
+    z-index: var(--z-surface);
+    /* sits below cat/buoy due to lower z-index */
+}
+
+.surface .water {
+    top: 47%;
+    /* waterline vertical position */
+    left: 0;
+    /* span from the left */
+    width: 100%;
+    /* full width ripple strip */
+    mix-blend-mode: multiply;
+}
+
+.surface .rainbow {
+    z-index: var(--z-rainbow);
+    /* separate stacking within the surface layer */
+    top: 37vh;
+    right: 4vw;
+    width: 35vw;
+    /* big, responsive size */
+    min-width: 160px;
+    /* blend the rainbow light with background colors */
+    filter: grayscale(90%) brightness(400%) contrast(100%) saturate(100%) opacity(100%);
+    opacity: .5;
+    mix-blend-mode: plus-lighter;
+}
+
+/* cat on buoy */
+.hero-figure {
+    z-index: var(--z-hero);
+    /* under surface, over clouds */
+}
+
+.hero-figure .cat {
+    animation: floatY 4.2s ease-in-out infinite;
+    /* bobbing motion */
+    top: 22%;
+    left: 5vw;
+    width: 40vw;
+    /* responsive size */
+    min-width: 340px;
+    /* minimum pixel width for detail */
+}
+
+/* intro text block */
+.intro {
+    position: absolute;
+    /* place the text “inside” the hero scene */
+    top: 20%;
+    left: 55vw;
+    z-index: var(--z-intro);
+    /* above decorative art so it’s readable */
+    width: min(520px, 34vw);
+    /* cap width: whichever is smaller wins */
+    color: var(--ink);
+}
+
+.intro span {
+    opacity: .92;
+    /* slight fade so headline pops more */
+    font-size: 1vw;
+}
+
+.intro h1 {
+    margin-bottom: 12px;
+    /* space below the headline */
+    font-size: 3vw;
+}
+
+header.hero .meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    /* icon | text */
+    grid-auto-rows: auto;
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 10px;
+    font-size: 20px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+/* ---------- MIDWATER ---------- */
+section.midwater {
+    min-height: var(--mid-h);
+    overflow: visible;
+    /* taller section for art + copy */
+    position: relative;
+    /* create a new positioning context */
+    padding-top: var(--theme-offset);
+    /* pushes the whole block down */
+}
+
+.dive-in {
+    position: relative;
+    z-index: var(--z-divein);
+    max-width: var(--maxw);
+    top: -30vw;
+    margin: 0 auto;
+    /* center the content block */
+    padding: 0 60px;
+    /* side padding for breathing room */
+}
+
+section.midwater .layer {
+    position: absolute;
+    /* full-size positioning layer */
+    inset: 0;
+    pointer-events: none;
+}
+
+.rays {
+    z-index: var(--z-rays);
+    /* rays sit behind fish/content */
+}
+
+.rays .beams {
+    top: -50%;
+    /* start a bit below the surface */
+    height: var(--rays-h);
+    /* tall cone; image scales by height */
+    right: 5%;
+    /* recolor golden rays to light gray */
+    filter: grayscale(90%) brightness(400%) contrast(100%) saturate(100%) opacity(100%);
+    opacity: 0.9;
+    mix-blend-mode: plus-lighter;
+}
+
+.theme-content {
+    position: relative;
+    z-index: var(--z-theme);
+    top: 10vw;
+}
+
+.content {
+    max-width: var(--maxw);
+    /* cap line length for readability */
+    margin: 0 auto;
+    /* center the content block */
+    padding: 0 60px;
+    /* side padding for breathing room */
+}
+
+.video-wrap {
+    width: min(720px, 90%);
+    /* responsive: cap at 720px or 90% of container */
+    aspect-ratio: 16/9;
+    /* maintain video aspect ratio */
+    margin: 20px auto 0;
+    /* center horizontally, with top margin */
+    position: relative;
+    /* so children can be absolutely positioned */
+    border-radius: 16px;
+    /* rounded corners */
+    overflow: hidden;
+    /* crop video edges to rounded corners */
+    box-shadow: 0 12px 40px rgba(6, 30, 38, .35);
+    /* soft drop shadow */
+    background: #0d2f37;
+    /* fallback color before video loads */
+}
+
+.video-wrap iframe,
+.video-wrap video {
+    position: absolute;
+    /* stretch the media to fill the wrapper */
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.caption {
+    font-size: 12px;
+    /* small label style */
+    letter-spacing: .04em;
+    /* slight tracking for uppercase */
+    text-transform: uppercase;
+    /* label look */
+    color: var(--ink-soft);
+    /* softer tone */
+    margin-top: 8px;
+    /* space from element above */
+}
+
+/* ---------- REEF & SEAFLOOR ---------- */
