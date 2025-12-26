@@ -1091,14 +1091,20 @@ section.reef .layer {
 }
 
 .timeline .time {
-  font-size: 12px;
+  font-family: "IBM Plex Mono";
+
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 150%;
+  
   text-transform: uppercase;
   letter-spacing: .05em;
 }
 
 .timeline .evt {
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 150%;
 }
 
 .timeline .highlight .evt {
