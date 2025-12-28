@@ -391,128 +391,457 @@
       </div>
     </footer>
     <script>
-      // Mobile nav toggle (hamburger)
-      (() => {
-        const nav = document.querySelector(".nav");
-        const toggleBtn = document.querySelector(".nav-toggle");
-        const navWrapper = document.getElementById("site-navigation");
-        const backdrop = document.querySelector("[data-nav-backdrop]");
-        const focusableSelectors =
-          'a[href], area[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+      (function () {
+        const section = document.querySelector(".midnight");
+        if (!section) return;
 
-        if (!nav || !toggleBtn || !navWrapper) return;
+        const pin = section.querySelector(".pin") || section;
+        const panel =
+          section.querySelector(".schedule-panel") ||
+          section.querySelector(".content.schedules");
+        const inner =
+          document.getElementById("schedulesInner") ||
+          section.querySelector(".content.schedules");
+        if (!panel || !pin || !inner) return;
 
-        const setOpen = (open) => {
-          nav.classList.toggle("open", open);
-          toggleBtn.setAttribute("aria-expanded", String(open));
-          navWrapper.setAttribute("aria-hidden", String(!open));
-          document.body.style.overflow = open ? "hidden" : "";
+        // --- lock window (Midnight zone is "active" while sticky is in view)
+        function isLockedPhase() {
+          const r = section.getBoundingClientRect();
+          return r.top <= 0 && r.bottom > window.innerHeight;
+        }
+
+        // We fake an internal scroll by translating the inner schedules block.
+        let offset = 0; // current virtual scroll offset (px)
+        let maxOff = 0; // how far we're allowed to "scroll" the text
+        let viewH = 0; // the conceptual "visible window" height for release logic
+
+        function recalc() {
+          // Treat a window that fits nicely next to the cave art
+          // (tweak the margin number if you need more/less headroom)
+          const marginTopBottom = 180; // px of top+bottom breathing room
+          viewH = Math.max(260, window.innerHeight - marginTopBottom);
+
+          // How tall the content actually is
+          const total = inner.scrollHeight;
+
+          // We can slide the content until its end lines up with our conceptual window
+          maxOff = Math.max(0, total - viewH);
+
+          // Keep offset in bounds and re-apply transform
+          offset = Math.max(0, Math.min(offset, maxOff));
+          inner.style.transform = `translateY(${-offset}px)`;
+        }
+
+        // initial + on resize
+        recalc();
+        window.addEventListener("load", recalc);
+        window.addEventListener("resize", recalc);
+
+        // Helpers: whether our virtual scroll can consume more
+        const EPS = 8;
+        const canDown = () => offset < maxOff - EPS;
+        const canUp = () => offset > EPS;
+
+        // Route wheel to the virtual scroller
+        function onWheel(e) {
+          if (!isLockedPhase()) return;
+          const dy = e.deltaY;
+
+          if (dy > 0) {
+            // down
+            if (canDown()) {
+              e.preventDefault();
+              offset = Math.min(maxOff, offset + dy);
+              inner.style.transform = `translateY(${-offset}px)`;
+            } else {
+              // at bottom → release to page scroll (no preventDefault)
+            }
+          } else if (dy < 0) {
+            // up
+            if (canUp()) {
+              e.preventDefault();
+              offset = Math.max(0, offset + dy);
+              inner.style.transform = `translateY(${-offset}px)`;
+            } else {
+              // at top → release to page scroll
+            }
+          }
+        }
+
+        // Keyboard (arrows, page up/down, space)
+        function onKey(e) {
+          if (!isLockedPhase()) return;
+          const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " "];
+          if (!keys.includes(e.key)) return;
+
+          const step = Math.max(80, Math.floor(viewH * 0.9));
+          let dy = 0;
+          if (e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ")
+            dy = step;
+          if (e.key === "ArrowUp" || e.key === "PageUp") dy = -step;
+
+          if (dy > 0 && canDown()) {
+            e.preventDefault();
+            offset = Math.min(maxOff, offset + dy);
+          }
+          if (dy < 0 && canUp()) {
+            e.preventDefault();
+            offset = Math.max(0, offset + dy);
+          }
+          inner.style.transform = `translateY(${-offset}px)`;
+        }
+
+        // Touch
+        let startY = 0;
+        function onTouchStart(e) {
+          if (isLockedPhase()) startY = e.touches[0].clientY;
+        }
+        function onTouchMove(e) {
+          if (!isLockedPhase()) return;
+          const dy = startY - e.touches[0].clientY; // swipe up => positive (scroll down)
+          if (dy > 0 && canDown()) {
+            e.preventDefault();
+            offset = Math.min(maxOff, offset + dy);
+          }
+          if (dy < 0 && canUp()) {
+            e.preventDefault();
+            offset = Math.max(0, offset + dy);
+          }
+          inner.style.transform = `translateY(${-offset}px)`;
+        }
+
+        // Attach with passive:false so we can preventDefault during lock
+        window.addEventListener("wheel", onWheel, { passive: false });
+        window.addEventListener("keydown", onKey, { passive: false });
+        window.addEventListener("touchstart", onTouchStart, { passive: true });
+        window.addEventListener("touchmove", onTouchMove, { passive: false });
+
+        let lastScrollY = window.pageYOffset;
+        let lastLocked = isLockedPhase();
+        function onScrollBoundary() {
+          const y = window.pageYOffset;
+          const nowLocked = isLockedPhase();
+          if (!lastLocked && nowLocked && y < lastScrollY) {
+            offset = 0;
+            inner.style.transform = "translateY(0px)";
+          }
+          lastLocked = nowLocked;
+          lastScrollY = y;
+        }
+        window.addEventListener("scroll", onScrollBoundary, { passive: true });
+
+        /* Expose a reset function so external code (nav) can restore the schedules scroller */
+        window.resetScheduleScroller = function () {
+          try {
+            recalc();
+            offset = 0;
+            inner.style.transform = "translateY(0px)";
+          } catch (e) {}
+        };
+      })();
+    </script>
+    <script>
+      (function () {
+        const navLinks = document.querySelectorAll(".nav a.nav-item");
+        if (!navLinks.length) return;
+
+        const navToSectionMap = {
+          Home: "home",
+          Schedule: "schedule",
+          FAQ: "faq",
+          About: null,
         };
 
-        // Initialize hidden state
-        setOpen(false);
-
-        toggleBtn.addEventListener("click", () => {
-          const isOpen = toggleBtn.getAttribute("aria-expanded") === "true";
-          setOpen(!isOpen);
-
-          // Move focus to first item when opening
-          if (!isOpen) {
-            const firstFocusable = navWrapper.querySelector(focusableSelectors);
-            firstFocusable?.focus();
-          }
-        });
-
-        // Close when clicking backdrop
-        backdrop?.addEventListener("click", () => setOpen(false));
-
-        // Close on escape key
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") setOpen(false);
-        });
-
-        // Close when selecting a nav item (useful on mobile)
-        navWrapper.addEventListener("click", (e) => {
-          const target = e.target;
-          if (target && target.closest && target.closest(".nav-item")) {
-            setOpen(false);
-          }
-        });
-      })();
-
-      // Highlight "About" nav item when on about_us.html page
-      (() => {
-        const navLinks = document.querySelectorAll(".nav a.nav-item");
+        // Build list of {link, el} in document order
+        const sections = [];
         navLinks.forEach((link) => {
-          if (
-            link.getAttribute("href") === "about_us.html" ||
-            link.textContent.trim() === "About"
-          ) {
+          const text = link.textContent.trim();
+          const id = navToSectionMap[text];
+          if (!id) return;
+          const el = document.getElementById(id);
+          if (el) sections.push({ link, el });
+        });
+        if (!sections.length) return;
+
+        const navEl = document.querySelector(".nav");
+        const getNavHeight = () =>
+          navEl ? navEl.getBoundingClientRect().height : 0;
+
+        function clearActive() {
+          navLinks.forEach((l) => {
+            l.classList.remove("active");
+            l.removeAttribute("aria-current");
+          });
+        }
+
+        function setActive(link) {
+          clearActive();
+          if (link) {
             link.classList.add("active");
-            link.setAttribute("aria-current", "page");
+            link.setAttribute("aria-current", "true");
+          }
+        }
+
+        // Choose active section by comparing absolute document top to the nav anchor line.
+        // This avoids IntersectionObserver issues with pinned/sticky children.
+        function computeActiveByDocTop() {
+          const navHeight = getNavHeight();
+          const anchorY = window.pageYOffset + navHeight + 20; // where nav sits + breathing room
+
+          let passed = null;
+          let passedTop = -Infinity;
+          let upcoming = null;
+          let upcomingTop = Infinity;
+
+          for (const { link, el } of sections) {
+            // Absolute top of element in document coordinates
+            const absTop = el.getBoundingClientRect().top + window.pageYOffset;
+
+            if (absTop <= anchorY) {
+              // element top has passed anchor
+              if (absTop > passedTop) {
+                passedTop = absTop;
+                passed = link;
+              }
+            } else {
+              // element is still below anchor
+              if (absTop < upcomingTop) {
+                upcomingTop = absTop;
+                upcoming = link;
+              }
+            }
+          }
+
+          // Prefer the last passed section, otherwise the nearest upcoming
+          return passed || upcoming || sections[0].link;
+        }
+
+        // Run update (throttled via rAF)
+        let ticking = false;
+        function updateActive() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => {
+            const chosen = computeActiveByDocTop();
+            setActive(chosen);
+            ticking = false;
+          });
+        }
+
+        // Smooth scroll handler for nav clicks
+        navLinks.forEach((link) => {
+          const text = link.textContent.trim();
+          const id = navToSectionMap[text];
+          if (!id) return;
+
+          link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const target = document.getElementById(id);
+            if (!target) return;
+
+            // If navigating to the schedule section, reset its internal scroller
+            if (
+              id === "schedule" &&
+              typeof window.resetScheduleScroller === "function"
+            ) {
+              try {
+                window.resetScheduleScroller();
+              } catch (err) {
+                /* ignore */
+              }
+            }
+
+            const navHeight = getNavHeight();
+            const targetDocTop =
+              target.getBoundingClientRect().top + window.pageYOffset;
+            const scrollToY = Math.max(0, targetDocTop - navHeight - 20);
+
+            window.scrollTo({ top: scrollToY, behavior: "smooth" });
+            history.pushState(null, null, "#" + text.toLowerCase());
+            // set active immediately for responsiveness
+            setActive(link);
+          });
+        });
+
+        // Init on load / resize / scroll
+        window.addEventListener("scroll", updateActive, { passive: true });
+        window.addEventListener("resize", updateActive);
+        window.addEventListener("load", () => {
+          // Honor hash on load if present
+          const hash = window.location.hash.slice(1).toLowerCase();
+          if (hash) {
+            const matching = Array.from(navLinks).find(
+              (l) => l.textContent.trim().toLowerCase() === hash
+            );
+            if (matching) {
+              const id = navToSectionMap[matching.textContent.trim()];
+              const target = id && document.getElementById(id);
+              if (target) {
+                const navHeight = getNavHeight();
+                const targetDocTop =
+                  target.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo({
+                  top: Math.max(0, targetDocTop - navHeight - 20),
+                });
+                setActive(matching);
+              }
+            }
+          }
+          updateActive();
+        });
+
+        // Run again shortly after load in case images/art reflow
+        setTimeout(updateActive, 350);
+      })();
+    </script>
+    <script>
+      (function () {
+        // Section-aware color responsiveness: detect which visual region sits under the nav
+        const nav = document.querySelector(".nav");
+        if (!nav) return;
+        const wrapper = document.querySelector(".nav-wrapper") || nav;
+
+        // Key visual regions on the About page
+        const hero = document.querySelector("header.hero.about");
+        const orcasUnder = document.querySelector(".about-orcas-under");
+        const grad1 = document.querySelector(".about-gradient-bg");
+        const grad2 = document.querySelector(
+          ".gradient-bg-2.about-gradient-bg-2"
+        );
+        const footer = document.querySelector("footer.about-footer");
+
+        function navAnchorY() {
+          const rect = nav.getBoundingClientRect();
+          return window.scrollY + rect.bottom + 6; // a few px below the nav
+        }
+        function containsY(el, y) {
+          if (!el) return false;
+          const r = el.getBoundingClientRect();
+          const top = window.scrollY + r.top;
+          const bottom = window.scrollY + r.bottom;
+          return y >= top && y <= bottom;
+        }
+
+        function elDocTop(el) {
+          const r = el.getBoundingClientRect();
+          return window.scrollY + r.top;
+        }
+        function currentTheme() {
+          const y = navAnchorY();
+          const orcasOverEl = document.querySelector(".about-orcas-over");
+          const orcasUnderEl = document.querySelector(".about-orcas-under");
+          const footerTop = footer
+            ? elDocTop(footer)
+            : Number.POSITIVE_INFINITY;
+          let orcasTop = Number.POSITIVE_INFINITY;
+          if (orcasOverEl) orcasTop = Math.min(orcasTop, elDocTop(orcasOverEl));
+          if (orcasUnderEl)
+            orcasTop = Math.min(orcasTop, elDocTop(orcasUnderEl));
+
+          // Revert to dark nav when over footer
+          if (y >= footerTop) return "light";
+          // Flip to white starting at the first orcas layer and persist until footer
+          if (isFinite(orcasTop) && y >= orcasTop) return "dark";
+          // Otherwise keep dark nav
+          return "light";
+        }
+
+        function applyTheme() {
+          const theme = currentTheme();
+          const invert = theme === "dark";
+          nav.classList.toggle("invert", invert);
+          wrapper.classList.toggle("invert", invert);
+        }
+
+        let ticking = false;
+        function scheduleUpdate() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => {
+            applyTheme();
+            ticking = false;
+          });
+        }
+
+        window.addEventListener("scroll", scheduleUpdate, { passive: true });
+        window.addEventListener("resize", scheduleUpdate);
+        window.addEventListener("load", scheduleUpdate);
+        // Initial run
+        applyTheme();
+      })();
+    </script>
+    <script>
+      // Countdown timer
+      (function () {
+        // Event date: January 25th, 2026 at 8:00 AM (PST/PDT)
+        const eventDate = new Date("2026-01-25T08:00:00-08:00").getTime();
+
+        function updateCountdown() {
+          const countdownEl = document.querySelector(".countdown");
+          if (!countdownEl) return;
+
+          const now = Date.now();
+          let diff = eventDate - now;
+
+          const units = countdownEl.querySelectorAll(".unit strong");
+
+          if (units.length !== 4) {
+            console.warn("Expected 4 countdown units, found:", units.length);
+            return;
+          }
+
+          if (diff <= 0) {
+            // Event has started or passed
+            countdownEl.innerHTML =
+              '<div class="unit"><strong>00</strong><span>Event Started!</span></div>';
+            countdownEl.setAttribute("aria-label", "Event has started");
+            return;
+          }
+
+          // Calculate time difference
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor(
+            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+          // Update the countdown values
+          units[0].textContent = days.toString().padStart(2, "0");
+          units[1].textContent = hours.toString().padStart(2, "0");
+          units[2].textContent = minutes.toString().padStart(2, "0");
+          units[3].textContent = seconds.toString().padStart(2, "0");
+
+          // Update aria-label for accessibility
+          const timeString = `${days} days, ${hours} hours, ${minutes} minutes, and ${seconds} seconds until the event`;
+          countdownEl.setAttribute("aria-label", timeString);
+        }
+
+        // Update immediately on load
+        updateCountdown();
+
+        // Update every second
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+        // Clean up interval when page unloads
+        window.addEventListener("beforeunload", () => {
+          if (countdownInterval) {
+            clearInterval(countdownInterval);
           }
         });
       })();
     </script>
     <script>
+      // Ensure the About nav item is marked active on the About page
       (function () {
-        const nav = document.querySelector(".nav");
-        if (!nav) return;
-        const wrapper = document.querySelector(".nav-wrapper") || nav;
-        function getEffectiveBg(el) {
-          while (el && el !== document.documentElement) {
-            const cs = getComputedStyle(el);
-            const bg = cs.backgroundColor;
-            if (bg && bg !== "rgba(0, 0, 0, 0)" && bg !== "transparent")
-              return bg;
-            el = el.parentElement;
-          }
-          return "rgb(255,255,255)";
-        }
-        function rgbBrightness(rgb) {
-          const m = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-          if (!m) return 255;
-          const r = +m[1],
-            g = +m[2],
-            b = +m[3];
-          return 0.2126 * r + 0.7152 * g + 0.0722 * b; // relative luminance
-        }
-        function updateInvert() {
-          const rect = nav.getBoundingClientRect();
-          const sampleX = window.innerWidth / 2;
-          const sampleY = rect.bottom + 6; // below nav
-          const el = document.elementFromPoint(sampleX, sampleY);
-          if (!el) {
-            nav.classList.remove("invert");
-            wrapper.classList.remove("invert");
-            return;
-          }
-          const bg = getEffectiveBg(el);
-          const bright = rgbBrightness(bg);
-          if (bright < 128) {
-            nav.classList.add("invert");
-            wrapper.classList.add("invert");
-          } else {
-            nav.classList.remove("invert");
-            wrapper.classList.remove("invert");
-          }
-        }
-        let ticking = false;
-        window.addEventListener(
-          "scroll",
-          () => {
-            if (!ticking) {
-              requestAnimationFrame(() => {
-                updateInvert();
-                ticking = false;
-              });
-              ticking = true;
-            }
-          },
-          { passive: true }
+        const navLinks = document.querySelectorAll(".nav a.nav-item");
+        const aboutLink = Array.from(navLinks).find(
+          (l) => l.textContent.trim() === "About"
         );
-        window.addEventListener("resize", updateInvert);
-        updateInvert();
+        if (aboutLink) {
+          aboutLink.classList.add("active");
+          aboutLink.setAttribute("aria-current", "true");
+        }
       })();
     </script>
   </body>
