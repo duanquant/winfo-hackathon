@@ -1981,12 +1981,22 @@ section.reef .layer {
     padding: 120px 0 100px;
   }
 
-  .faq-grid {
-    grid-template-columns: 1fr !important;
+  .faq .content {
+    max-width: 90vw;
+    width: 90vw;
   }
 
-  .faq .content {
-    max-width: 720px;
+  .faq-grid {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .faq-column {
+    width: 100%;
+  }
+
+  .faq-grid details {
+    width: 100%;
   }
 
   .faq-grid summary {
