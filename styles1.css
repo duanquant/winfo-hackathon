@@ -185,6 +185,7 @@ body.bg-desktop{
     padding: 1% 2%;
     width: 90%; 
     justify-content: center;
+    column-gap: 24px; /* stable desktop gap */
   }
 
   .nav-item {
@@ -216,6 +217,28 @@ body.bg-desktop{
   border-radius: 2px;
   transition: transform 0.3s ease, background-color 0.4s ease;
   transform-origin: center;
+}
+
+/* Tablet/Small desktop spacing (exclude mobile) */
+@media (max-width: 1024px) and (min-width: 481px) {
+  .nav-wrapper {
+    width: 94%;
+    padding: 8px 14px;
+    column-gap: 24px; /* match desktop gap */
+    justify-content: center; /* same alignment as desktop */
+  }
+  .nav-item {
+    flex: 0 1 auto; /* let items size to text */
+  }
+}
+
+@media (max-width: 768px) and (min-width: 481px) {
+  .nav-wrapper {
+    font-size: 15px;
+    column-gap: 24px; /* match desktop gap */
+    width: 96%;
+    justify-content: center; /* same alignment as desktop */
+  }
 }
 
 /* Active state */
