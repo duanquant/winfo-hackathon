@@ -155,8 +155,6 @@ body.bg-desktop{
 }
 
 /* Navigation */
-/* Disable any legacy anchor-based underline to avoid conflicts */
-.nav-item::after { content: none !important; }
 
 .nav{
     position: fixed;
@@ -199,15 +197,14 @@ body.bg-desktop{
     transition: font-weight 0.2s ease, color 0.4s ease;
 }
 
-/* Word-length underline on the label */
-.nav-item .nav-label { position: relative; display: inline-block; white-space: nowrap; }
-.nav-item .nav-label::after {
+/* Underline indicator */
+.nav-item::after {
   content: "";
   position: absolute;
-  left: 0;
+  left: 50%;
   bottom: -4px; /* closer to text */
-  transform: scaleX(0);
-  width: 100%; /* exactly the word width */
+  transform: translateX(-50%) scaleX(0);
+  width: 80%;
   height: 2px; /* thinner underline */
   background: #0b3039; /* base underline color */
   border-radius: 2px;
@@ -221,9 +218,9 @@ body.bg-desktop{
   font-weight: 700;
 }
 
-.nav-item.active .nav-label::after,
-.nav-item[aria-current="true"] .nav-label::after {
-  transform: scaleX(1);
+.nav-item.active::after,
+.nav-item[aria-current="true"]::after {
+  transform: translateX(-50%) scaleX(1);
 }
 
 /* Hover state */
@@ -231,50 +228,22 @@ body.bg-desktop{
   font-weight: 600;
 }
 
-.nav-item:hover .nav-label::after {
-  transform: scaleX(0.5);
+.nav-item:hover::after {
+  transform: translateX(-50%) scaleX(0.5);
   opacity: 0.5;
 }
 
-.nav-item.active:hover .nav-label::after,
-.nav-item[aria-current="true"]:hover .nav-label::after {
-  transform: scaleX(1);
+.nav-item.active:hover::after,
+.nav-item[aria-current="true"]:hover::after {
+  transform: translateX(-50%) scaleX(1);
   opacity: 1;
 }
 
   /* Invert mode: when nav sits over dark background */
   .nav.invert .nav-item,
   .nav-wrapper.invert .nav-item { color: #ffffff; }
-  .nav.invert .nav-label::after,
-  .nav-wrapper.invert .nav-label::after { background: #ffffff; }
-
-/* Nav spacing across breakpoints (exclude mobile) */
-@media (min-width: 768px) and (max-width: 1024px) {
-  /* Tablet: match visual spacing in screenshot */
-  .nav-wrapper { width: 88%; padding: 10px 24px; gap: 30px; }
-  .nav-item { flex: 0 0 auto; }
-}
-
-@media (min-width: 1025px) and (max-width: 1399px) {
-  .nav-wrapper { width: 78%; padding: 10px 24px; gap: 18px; }
-  .nav-item { flex: 0 1 10%; }
-}
-
-@media (min-width: 1400px) and (max-width: 1919px) {
-  .nav-wrapper { width: 62%; padding: 10px 26px; gap: 20px; }
-  .nav-item { flex: 0 1 9%; }
-}
-
-@media (min-width: 1920px) {
-  .nav-wrapper { width: 52%; padding: 10px 30px; gap: 22px; }
-  .nav-item { flex: 0 1 8%; }
-}
-
-/* Pre-mobile small tablet/large phone landscape */
-@media (min-width: 481px) and (max-width: 767px) {
-  .nav-wrapper { width: 92%; padding: 10px 20px; gap: 22px; }
-  .nav-item { flex: 0 0 auto; }
-}
+  .nav.invert .nav-item::after,
+  .nav-wrapper.invert .nav-item::after { background: #ffffff; }
 
 /* ---------- Hero (sky + surface) ---------- */
 header.hero {
@@ -1696,30 +1665,29 @@ section.reef .layer {
         padding: 4px 6px;            /* tighten vertical spacing */
     }
 
-    /* underline sized to label (mobile) */
-    .nav-wrapper .nav-item .nav-label { position: relative; display: inline-block; white-space: nowrap; }
-    .nav-wrapper .nav-item .nav-label::after {
-      content: "";
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      transform: scaleX(0);
-      width: 100%;
-      height: 2px;
+    /* underline */
+    .nav-wrapper .nav-item::after {
+        content: "";
+        position: absolute;
+      bottom: -4px;                 /* keep closer spacing */
+        left: 50%;
+        transform: translateX(-50%) scaleX(0);
+        width: 80%;
+      height: 2px;                  /* thinner underline */
       background: #0b3039;
-      border-radius: 2px;
-      transition: transform 0.3s ease;
-      transform-origin: center;
+      border-radius: 2px;           /* rounded ends */
+        transition: transform 0.3s ease;
+        transform-origin: center;
     }
-    .nav-wrapper .nav-item.active .nav-label::after,
-    .nav-wrapper .nav-item[aria-current="true"] .nav-label::after {
-      transform: scaleX(1);
+    .nav-wrapper .nav-item.active::after,
+    .nav-wrapper .nav-item[aria-current="true"]::after {
+        transform: translateX(-50%) scaleX(1);
     }
     
     /* Hover animation to match desktop on mobile */
-    .nav-wrapper .nav-item:hover .nav-label::after {
-      transform: scaleX(0.5);
-      opacity: 0.6;
+    .nav-wrapper .nav-item:hover::after {
+        transform: translateX(-50%) scaleX(0.5);
+        opacity: 0.6;
     }
     
     .nav-toggle {
