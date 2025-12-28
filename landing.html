@@ -903,6 +903,42 @@
     </footer>
 
     <script>
+      // Mobile nav toggle for Landing page
+      (function () {
+        const nav = document.querySelector(".nav");
+        const btn = document.querySelector(".nav-toggle");
+        const wrapper = document.getElementById("site-navigation");
+        const backdrop = document.querySelector("[data-nav-backdrop]");
+        if (!nav || !btn || !wrapper) return;
+
+        function openNav() {
+          nav.classList.add("open");
+          btn.setAttribute("aria-expanded", "true");
+          document.documentElement.classList.add("nav-open");
+          if (backdrop) backdrop.style.pointerEvents = "auto";
+        }
+        function closeNav() {
+          nav.classList.remove("open");
+          btn.setAttribute("aria-expanded", "false");
+          document.documentElement.classList.remove("nav-open");
+          if (backdrop) backdrop.style.pointerEvents = "none";
+        }
+        function toggleNav() {
+          const expanded = btn.getAttribute("aria-expanded") === "true";
+          expanded ? closeNav() : openNav();
+        }
+
+        btn.addEventListener("click", toggleNav);
+        if (backdrop) backdrop.addEventListener("click", closeNav);
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") closeNav();
+        });
+        wrapper.querySelectorAll(".nav-item").forEach((a) => {
+          a.addEventListener("click", () => closeNav());
+        });
+      })();
+    </script>
+    <script>
       // if (window.matchMedia("(max-width: 1024px)").matches) return;
 
       (function () {

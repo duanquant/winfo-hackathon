@@ -1176,40 +1176,44 @@ section.reef .layer {
         --spacing-md: clamp(1rem, 4vw, 1.5rem);
         --spacing-lg: clamp(1.5rem, 6vw, 2.5rem);
         --spacing-xl: clamp(2rem, 8vw, 3.5rem);
+        /* Mobile nav alignment control */
+        --nav-mobile-padding-left: 24px; /* base left for button */
+        --nav-x-offset: 2px;            /* nudge X bars right to match PNG content */
+        --nav-text-offset: 7px;         /* fine-tune overlay text to align with X */
     }
 
     /* mobile menu rules */
     .nav-wrapper {
         position: fixed;
-        top: 12px;
-        right: 12px;      
-        z-index: 10000;                    
-        width: 50vw;
-        max-width: 50vw !important;
-        height: auto !important;    
-        max-height: 40vh !important;
-        overflow: auto;                        
+        inset: 0;
+        z-index: 10000;
+        margin: 0;                 /* remove inherited top margin to avoid sliver */
+        width: 100vw;
+        height: 100vh !important;
+        overflow: auto;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;   
-        justify-content: flex-start; 
-        gap: 6px;                  
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 32px;
+        padding: 64px 32px;
+        padding-left: calc(var(--nav-mobile-padding-left) + var(--nav-x-offset) + var(--nav-text-offset)); /* align text to X visible left edge */
 
-        background: rgba(255,255,255,0.9);
-        -webkit-backdrop-filter: blur(1px);
-        backdrop-filter: blur(1px);
-        border: 1px solid #DDE6EB;
-        border-radius: 18px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+        background: #cfe8ec;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
 
-        transform: translateX(110%); 
+        transform: translateY(-104%);
         transition: transform .28s cubic-bezier(.2,.9,.2,1);
     }
     
     .nav-wrapper .nav-item {
         display: block;
         text-align: left;
-        padding: 4px 6px;            /* tighten vertical spacing */
+        padding: 0;
+        font-size: clamp(32px, 7.5vw, 52px);
+        line-height: 1.1;
         transition: color 0.35s ease;
     }
 
@@ -1241,11 +1245,11 @@ section.reef .layer {
     .nav-toggle {
         position: fixed;
         top: 12px;
-        left: 12px;         
+        left: var(--nav-mobile-padding-left);         
         z-index: 10001;
         display: inline-flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start; /* keep hamburger and X at same left edge */
         width: 40px;
         height: 40px;
         border: 0;
@@ -1255,10 +1259,10 @@ section.reef .layer {
         backdrop-filter: none;
         box-shadow: none;
     }
-    .nav-toggle .hamburger-icon { width: 22px; height: 22px; display: block; }
-    .nav-toggle .hamburger { display: none; }
-    .nav-toggle .hamburger-icon { width: 22px; height: 22px; display: block; }
-    .nav-toggle .hamburger { display: none; }
+    .nav-toggle .hamburger-icon { width: 22px; height: 22px; display: block; margin-left: var(--nav-x-offset); }
+    .nav-toggle .hamburger { display: none; width: 22px; height: 22px; position: relative; margin-left: var(--nav-x-offset); }
+    .nav-toggle .hamburger span { display: block; width: 22px; height: 2px; background: #0b3039; border-radius: 2px; transition: transform .2s ease, opacity .2s ease; }
+    .nav-toggle .hamburger span + span { margin-top: 6px; }
     
     /* Backdrop */
     .nav-backdrop {
@@ -1273,11 +1277,26 @@ section.reef .layer {
 
     /* Open state: show panel and backdrop */
     .nav.open .nav-wrapper {
-        transform: translateX(0);
+        transform: translateY(0);
     }
     .nav.open .nav-backdrop {
         opacity: 1;
     }
+    /* Keep nav colors dark on mobile overlay (disable white invert) */
+    .nav.open .nav-item,
+    .nav.open.invert .nav-item { color: #0b3039; }
+    .nav.open .nav-item .label::after,
+    .nav.open.invert .nav-item .label::after { background: #0b3039; }
+    /* Align X with menu text using CSS only */
+    .nav.open .nav-toggle { left: var(--nav-mobile-padding-left); justify-content: flex-start; }
+    /* When open: swap to animated bars (forms an X), hide image icon */
+    .nav.open .nav-toggle .hamburger-icon { display: none; }
+    .nav.open .nav-toggle .hamburger { display: inline-block; }
+    /* Invert support: white bars on dark backgrounds */
+    .nav.invert .nav-toggle .hamburger span { background: #ffffff; }
+    /* But keep bars dark when the mobile overlay is open */
+    .nav.open .nav-toggle .hamburger span,
+    .nav.open.invert .nav-toggle .hamburger span { background: #0b3039; }
 
     /* Hamburger animation */
     .nav.open .hamburger span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
