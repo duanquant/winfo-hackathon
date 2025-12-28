@@ -29,10 +29,18 @@
       </button>
 
       <div id="site-navigation" class="nav-wrapper" role="navigation">
-        <a href="landing.html#home" class="nav-item">Home</a>
-        <a href="landing.html#schedule" class="nav-item">Schedule</a>
-        <a href="landing.html#faq" class="nav-item">FAQ</a>
-        <a href="about_us.html" class="nav-item">About</a>
+        <a href="landing.html#home" class="nav-item"
+          ><span class="label">Home</span></a
+        >
+        <a href="landing.html#schedule" class="nav-item"
+          ><span class="label">Schedule</span></a
+        >
+        <a href="landing.html#faq" class="nav-item"
+          ><span class="label">FAQ</span></a
+        >
+        <a href="about_us.html" class="nav-item"
+          ><span class="label">About</span></a
+        >
       </div>
 
       <div class="nav-backdrop" data-nav-backdrop></div>
@@ -1052,6 +1060,26 @@
             inner.style.transform = "translateY(0px)";
           } catch (e) {}
         };
+
+        // Pre-scroll the schedules inner panel so the header is visible under the nav.
+        // No layout changes — just adjust the virtual offset used during the sticky phase.
+        window.jumpScheduleToHeader = function (
+          navHeight = 0,
+          margin = 20,
+          ratio = 0.86
+        ) {
+          try {
+            recalc();
+            // The schedule panel starts around 80vh from the top; aim to bring the header
+            // up near the nav line without altering CSS.
+            const desired = Math.max(
+              0,
+              Math.round(window.innerHeight * ratio - (navHeight + margin))
+            );
+            offset = Math.max(0, Math.min(maxOff, desired));
+            inner.style.transform = `translateY(${-offset}px)`;
+          } catch (e) {}
+        };
       })();
     </script>
     <script>
@@ -1080,6 +1108,15 @@
         const navEl = document.querySelector(".nav");
         const getNavHeight = () =>
           navEl ? navEl.getBoundingClientRect().height : 0;
+
+        // Keep clicked nav item active during smooth scroll
+        let manualActiveLink = null;
+        let overrideUntil = 0;
+        function setManualActive(link, durationMs = 1000) {
+          manualActiveLink = link;
+          overrideUntil = Date.now() + durationMs;
+          setActive(link);
+        }
 
         function clearActive() {
           navLinks.forEach((l) => {
@@ -1134,6 +1171,13 @@
         let ticking = false;
         function updateActive() {
           if (ticking) return;
+          // Honor manual override while smooth scrolling
+          if (manualActiveLink && Date.now() < overrideUntil) {
+            setActive(manualActiveLink);
+            return;
+          } else {
+            manualActiveLink = null;
+          }
           ticking = true;
           requestAnimationFrame(() => {
             const chosen = computeActiveByDocTop();
@@ -1166,14 +1210,37 @@
             }
 
             const navHeight = getNavHeight();
-            const targetDocTop =
-              target.getBoundingClientRect().top + window.pageYOffset;
-            const scrollToY = Math.max(0, targetDocTop - navHeight - 20);
+            // Default scroll target is the section top; for FAQ, aim at its header
+            let scrollToY;
+            if (id === "faq") {
+              const header = document.querySelector("#faq .section-title");
+              const aimEl = header || target;
+              const aimTop =
+                aimEl.getBoundingClientRect().top + window.pageYOffset;
+              scrollToY = Math.max(0, aimTop - navHeight - 40);
+            } else {
+              const targetDocTop =
+                target.getBoundingClientRect().top + window.pageYOffset;
+              scrollToY = Math.max(0, targetDocTop - navHeight - 20);
+            }
 
             window.scrollTo({ top: scrollToY, behavior: "smooth" });
+            // For schedule: pre-scroll inner panel so header is already in view
+            if (
+              id === "schedule" &&
+              typeof window.jumpScheduleToHeader === "function"
+            ) {
+              setTimeout(() => {
+                try {
+                  window.jumpScheduleToHeader(navHeight, 20, 0.88);
+                } catch (err) {
+                  /* ignore */
+                }
+              }, 120);
+            }
             history.pushState(null, null, "#" + text.toLowerCase());
-            // set active immediately for responsiveness
-            setActive(link);
+            // keep the clicked link active during smooth scroll
+            setManualActive(link, 1200);
           });
         });
 
@@ -1192,12 +1259,40 @@
               const target = id && document.getElementById(id);
               if (target) {
                 const navHeight = getNavHeight();
-                const targetDocTop =
-                  target.getBoundingClientRect().top + window.pageYOffset;
-                window.scrollTo({
-                  top: Math.max(0, targetDocTop - navHeight - 20),
-                });
-                setActive(matching);
+                let scrollToY;
+                if (id === "schedule" || id === "faq") {
+                  if (id === "faq") {
+                    const header = document.querySelector(
+                      "#faq .section-title"
+                    );
+                    const aimEl = header || target;
+                    const aimTop =
+                      aimEl.getBoundingClientRect().top + window.pageYOffset;
+                    scrollToY = Math.max(0, aimTop - navHeight - 40);
+                  } else {
+                    const targetDocTop =
+                      target.getBoundingClientRect().top + window.pageYOffset;
+                    scrollToY = Math.max(0, targetDocTop - navHeight - 20);
+                  }
+                } else {
+                  const targetDocTop =
+                    target.getBoundingClientRect().top + window.pageYOffset;
+                  scrollToY = Math.max(0, targetDocTop - navHeight - 20);
+                }
+                window.scrollTo({ top: scrollToY });
+                if (
+                  id === "schedule" &&
+                  typeof window.jumpScheduleToHeader === "function"
+                ) {
+                  setTimeout(() => {
+                    try {
+                      window.jumpScheduleToHeader(navHeight, 20, 0.88);
+                    } catch (err) {
+                      /* ignore */
+                    }
+                  }, 120);
+                }
+                setManualActive(matching, 1000);
               }
             }
           }
