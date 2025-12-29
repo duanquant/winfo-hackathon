@@ -1035,6 +1035,8 @@
         // Keyboard (arrows, page up/down, space)
         function onKey(e) {
           if (!isLockedPhase()) return;
+          // Only consume keyboard scrolling when the schedule panel is the user's focus/hover target
+          if (!panel.matches(":hover")) return;
           const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " "];
           if (!keys.includes(e.key)) return;
 
@@ -1082,11 +1084,12 @@
           inner.style.transform = `translateY(${-offset}px)`;
         }
 
-        // Attach with passive:false so we can preventDefault during lock
-        window.addEventListener("wheel", onWheel, { passive: false });
+        // Attach handlers to the schedule panel only, so the page never "sticks"
+        // unless the pointer is interacting with the schedule content.
+        panel.addEventListener("wheel", onWheel, { passive: false });
         window.addEventListener("keydown", onKey, { passive: false });
-        window.addEventListener("touchstart", onTouchStart, { passive: true });
-        window.addEventListener("touchmove", onTouchMove, { passive: false });
+        panel.addEventListener("touchstart", onTouchStart, { passive: true });
+        panel.addEventListener("touchmove", onTouchMove, { passive: false });
 
         /* Expose a reset function so external code (nav) can restore the schedules scroller */
         window.resetScheduleScroller = function () {

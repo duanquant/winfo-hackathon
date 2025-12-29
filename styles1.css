@@ -937,7 +937,8 @@ section.reef .layer {
   overflow-x: hidden;
   overflow-y: visible;
 
-  overscroll-behavior: none;
+  /* Allow normal scroll chaining; avoid trapping scroll before sticky engages */
+  overscroll-behavior: auto;
 
   padding-bottom: 80px;
   z-index: 0;
@@ -1021,9 +1022,11 @@ section.reef .layer {
   position: absolute;
   right: 4vw;
   /* align near right/center per figma */
-  top: 80vh;
-  /* starting Y inside the viewport */
+  top: clamp(56vh, 70vh, 80vh);
+  /* starting Y inside the viewport, reduced on large screens to avoid visible gap */
   width: min(800px, 80vw);
+  /* Keep internal interactions local so page scroll remains smooth */
+  overscroll-behavior: contain;
   overflow: visible;
   z-index: 2;
   /* above art, below section overlay */
