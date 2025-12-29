@@ -800,13 +800,47 @@ section.reef .layer {
   /* LEFT column (numbers/titles), RIGHT column (copy) */
   align-items: start;
   column-gap: 48px;
-  border-top: 1px solid rgba(255, 255, 255, .15);
+  border-top: none;
 }
 
+
 .tracks .content .tracks-list {
-  border-top: 1px solid rgba(216, 231, 238, 0.15);
+  border-top: none;
   margin-top: 8px;
   /* space below "Prize Tracks" */
+}
+
+/* line divider BEFORE tracks */
+.tracks .section-title {
+  position: relative;
+  padding-bottom: 28px;
+}
+
+.tracks .section-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 6px;
+
+  background: url("assets/tracks/track-line-divider.png") left center / contain no-repeat;
+  opacity: 0.8;
+}
+
+/* line dividers between tracks */
+.track + .track::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 6px; /* match PNG height */
+
+  background: url("assets/tracks/track-line-divider.png") left center / contain no-repeat;
+  opacity: 0.75;
 }
 
 .track:first-child {
@@ -1106,8 +1140,30 @@ section.reef .layer {
   gap: 20px;
 }
 
+/*
+original normal lines to separate time/event rows:
 .timeline li+li {
   border-top: 1px solid rgba(255, 255, 255, .06);
+}
+*/
+
+/* new lines that fade out part1: */
+.timeline li {
+  position: relative;
+}
+
+/* new lines that fade out part2: */
+.timeline li + li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 6px; /* match your PNG height */
+
+  background: url("assets/midnight-zone/schedule-line-divider.png") left center / contain no-repeat;
+  opacity: 0.8; /* optional softening */
 }
 
 .timeline li::before {
