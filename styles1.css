@@ -70,7 +70,7 @@ body {
   /* remove default page margin */
   color: var(--ink);
   /* use the main text color */
-  background-color: white;
+  background-color: #6bbbd1;
   font-family: 'brother-1816', sans-serif;
   font-weight: 400;
   line-height: 1.5;
@@ -79,6 +79,7 @@ body {
 /* Desktop default */
 body.bg-desktop{
   background: url("assets/background/bg-desktop.png") center top/cover no-repeat;
+  background-color: #6bbbd1;
 }
 
 /* Tablet override */
