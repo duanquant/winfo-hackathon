@@ -4,41 +4,42 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WINFO Hackathon</title>
+    <link rel="stylesheet" href="styles_global.css" />
     <link rel="stylesheet" href="styles2.css" />
     <link rel="stylesheet" href="https://use.typekit.net/xxr8qwd.css" />
   </head>
   <body>
-    <!-- navigation bar-->
-    <nav class="nav" aria-hidden="false">
-      <button
-        class="nav-toggle"
-        aria-label="Open menu"
-        aria-expanded="false"
-        aria-controls="site-navigation"
+   <!-- navigation bar-->
+   <nav class="nav" aria-hidden="false">
+    <button
+      class="nav-toggle"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="site-navigation"
+    >
+      <img src="assets/nav/hamburger.png" alt="Menu" class="hamburger-icon" />
+      <span class="hamburger" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+
+    <div id="site-navigation" class="nav-wrapper" role="navigation">
+      <a href="landing.html#home" class="nav-item"
+        ><span class="label">Home</span></a
       >
-        <img src="assets/nav/hamburger.png" alt="Menu" class="hamburger-icon" />
-        <span class="hamburger" aria-hidden="true">
-          <span></span><span></span><span></span>
-        </span>
-      </button>
+      <a href="landing.html#schedule" class="nav-item"
+        ><span class="label">Schedule</span></a
+      >
+      <a href="landing.html#faq" class="nav-item"
+        ><span class="label">FAQ</span></a
+      >
+      <a href="about_us.html" class="nav-item"
+        ><span class="label">About</span></a
+      >
+    </div>
 
-      <div id="site-navigation" class="nav-wrapper" role="navigation">
-        <a href="landing.html#home" class="nav-item"
-          ><span class="label">Home</span></a
-        >
-        <a href="landing.html#schedule" class="nav-item"
-          ><span class="label">Schedule</span></a
-        >
-        <a href="landing.html#faq" class="nav-item"
-          ><span class="label">FAQ</span></a
-        >
-        <a href="about_us.html" class="nav-item"
-          ><span class="label">About</span></a
-        >
-      </div>
-
-      <div class="nav-backdrop" data-nav-backdrop></div>
-    </nav>
+    <div class="nav-backdrop" data-nav-backdrop></div>
+  </nav>
     <!-- hero/about us section -->
     <header class="hero wrap about">
       <!-- clouds layer (About page) -->
@@ -63,7 +64,7 @@
 
       <!-- hero content -->
       <div class="hero-content">
-        <h1>About</h1>
+        <h2>About</h2>
         <p>
           Learn more about WINFO and the<br />team behind our latest hackathon!
         </p>
@@ -104,7 +105,7 @@
 
       <!-- WINFO description content -->
       <div class="winfo-content">
-        <h1>What is WINFO?</h1>
+        <h2>What is WINFO?</h2>
         <p>
           Women in Informatics (WINFO) is a diversity organization at the
           Information School at the University of Washington, Seattle, dedicated
@@ -127,7 +128,7 @@
     <section class="committee-members">
       <!-- team content -->
       <div class="team-content">
-        <h1>Our Team</h1>
+        <h2>Our Team</h2>
         <p>
           Our team of 12 organizers are brought together by a shared passion for
           building spaces where everyone feels welcome to create, connect, and
@@ -224,12 +225,12 @@
 
       <!-- Winners section title -->
       <div class="winners-section">
-        <h1>Last Year's Winners</h1>
+        <h2>Last Year's Winners</h2>
 
         <!-- Winner 1 -->
         <div class="winner">
           <img src="assets_about/Line 6.svg" alt="" class="winner-line" />
-          <h2>Best Design — "Furever"</h2>
+          <h3>Best Design — "Furever"</h3>
           <p>
             How can young prospective pet owners easily find lifestyle
             compatible dogs and cats in a fun and familiar way to increase the
@@ -265,7 +266,7 @@
         <!-- Winner 2 -->
         <div class="winner">
           <img src="assets_about/Line 6.svg" alt="" class="winner-line" />
-          <h2>Best Impact — “Memory Bloom”</h2>
+          <h3>Best Impact — “Memory Bloom”</h3>
           <p>
             Our app helps caregivers bond with Alzheimer’s patients by
             recommending personalized activities based on preferences. This
@@ -305,7 +306,7 @@
         <!-- Winner 3 -->
         <div class="winner">
           <img src="assets_about/Line 6.svg" alt="" class="winner-line" />
-          <h2>Best Coding — “Connecting Communities”</h2>
+          <h3>Best Coding — “Connecting Communities”</h3>
           <p>
             We are seeking to bridge the gap between clubs, organizations, and
             small businesses by creating a dedicated space where clubs and
@@ -328,7 +329,7 @@
         <!-- Winner 4 -->
         <div class="winner">
           <img src="assets_about/Line 6.svg" alt="" class="winner-line" />
-          <h2>Best Overall — “Beacon”</h2>
+          <h3 >Best Overall — “Beacon”</h3>
           <p>
             Inspired by stories of resilience, we created Beacon, your ultimate
             disaster preparedness and response app, designed to provide
@@ -399,343 +400,128 @@
       </div>
     </footer>
     <script>
-      // Mobile nav toggle for About page
-      (function () {
+      // Mobile nav toggle (hamburger)
+      (() => {
         const nav = document.querySelector(".nav");
-        const btn = document.querySelector(".nav-toggle");
-        const wrapper = document.getElementById("site-navigation");
+        const toggleBtn = document.querySelector(".nav-toggle");
+        const navWrapper = document.getElementById("site-navigation");
         const backdrop = document.querySelector("[data-nav-backdrop]");
-        if (!nav || !btn || !wrapper) return;
+        const focusableSelectors =
+          'a[href], area[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-        function openNav() {
-          nav.classList.add("open");
-          btn.setAttribute("aria-expanded", "true");
-          document.documentElement.classList.add("nav-open");
-          if (backdrop) backdrop.style.pointerEvents = "auto";
-        }
-        function closeNav() {
-          nav.classList.remove("open");
-          btn.setAttribute("aria-expanded", "false");
-          document.documentElement.classList.remove("nav-open");
-          if (backdrop) backdrop.style.pointerEvents = "none";
-        }
-        function toggleNav() {
-          const expanded = btn.getAttribute("aria-expanded") === "true";
-          expanded ? closeNav() : openNav();
-        }
+        if (!nav || !toggleBtn || !navWrapper) return;
 
-        btn.addEventListener("click", toggleNav);
-        if (backdrop) backdrop.addEventListener("click", closeNav);
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") closeNav();
-        });
-        wrapper.querySelectorAll(".nav-item").forEach((a) => {
-          a.addEventListener("click", () => closeNav());
-        });
-      })();
-    </script>
-    <script>
-      (function () {
-        const navLinks = document.querySelectorAll(".nav a.nav-item");
-        if (!navLinks.length) return;
-
-        const navToSectionMap = {
-          Home: "home",
-          Schedule: "schedule",
-          FAQ: "faq",
-          About: null,
+        const setOpen = (open) => {
+          nav.classList.toggle("open", open);
+          toggleBtn.setAttribute("aria-expanded", String(open));
+          navWrapper.setAttribute("aria-hidden", String(!open));
+          document.body.style.overflow = open ? "hidden" : "";
         };
 
-        // Build list of {link, el} in document order
-        const sections = [];
-        navLinks.forEach((link) => {
-          const text = link.textContent.trim();
-          const id = navToSectionMap[text];
-          if (!id) return;
-          const el = document.getElementById(id);
-          if (el) sections.push({ link, el });
+        // Initialize hidden state
+        setOpen(false);
+
+        toggleBtn.addEventListener("click", () => {
+          const isOpen = toggleBtn.getAttribute("aria-expanded") === "true";
+          setOpen(!isOpen);
+
+          // Move focus to first item when opening
+          if (!isOpen) {
+            const firstFocusable = navWrapper.querySelector(focusableSelectors);
+            firstFocusable?.focus();
+          }
         });
-        if (!sections.length) return;
 
-        const navEl = document.querySelector(".nav");
-        const getNavHeight = () =>
-          navEl ? navEl.getBoundingClientRect().height : 0;
+        // Close when clicking backdrop
+        backdrop?.addEventListener("click", () => setOpen(false));
 
-        function clearActive() {
-          navLinks.forEach((l) => {
-            l.classList.remove("active");
-            l.removeAttribute("aria-current");
-          });
-        }
+        // Close on escape key
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") setOpen(false);
+        });
 
-        function setActive(link) {
-          clearActive();
-          if (link) {
+        // Close when selecting a nav item (useful on mobile)
+        navWrapper.addEventListener("click", (e) => {
+          const target = e.target;
+          if (target && target.closest && target.closest(".nav-item")) {
+            setOpen(false);
+          }
+        });
+      })();
+
+      // Highlight "About" nav item when on about_us.html page
+      (() => {
+        const navLinks = document.querySelectorAll(".nav a.nav-item");
+        navLinks.forEach((link) => {
+          if (
+            link.getAttribute("href") === "about_us.html" ||
+            link.textContent.trim() === "About"
+          ) {
             link.classList.add("active");
-            link.setAttribute("aria-current", "true");
+            link.setAttribute("aria-current", "page");
           }
-        }
-
-        // Choose active section by comparing absolute document top to the nav anchor line.
-        // This avoids IntersectionObserver issues with pinned/sticky children.
-        function computeActiveByDocTop() {
-          const navHeight = getNavHeight();
-          const anchorY = window.pageYOffset + navHeight + 20; // where nav sits + breathing room
-
-          let passed = null;
-          let passedTop = -Infinity;
-          let upcoming = null;
-          let upcomingTop = Infinity;
-
-          for (const { link, el } of sections) {
-            // Absolute top of element in document coordinates
-            const absTop = el.getBoundingClientRect().top + window.pageYOffset;
-
-            if (absTop <= anchorY) {
-              // element top has passed anchor
-              if (absTop > passedTop) {
-                passedTop = absTop;
-                passed = link;
-              }
-            } else {
-              // element is still below anchor
-              if (absTop < upcomingTop) {
-                upcomingTop = absTop;
-                upcoming = link;
-              }
-            }
-          }
-
-          // Prefer the last passed section, otherwise the nearest upcoming
-          return passed || upcoming || sections[0].link;
-        }
-
-        // Run update (throttled via rAF)
-        let ticking = false;
-        function updateActive() {
-          if (ticking) return;
-          ticking = true;
-          requestAnimationFrame(() => {
-            const chosen = computeActiveByDocTop();
-            setActive(chosen);
-            ticking = false;
-          });
-        }
-
-        // Smooth scroll handler for nav clicks
-        navLinks.forEach((link) => {
-          const text = link.textContent.trim();
-          const id = navToSectionMap[text];
-          if (!id) return;
-
-          link.addEventListener("click", (e) => {
-            e.preventDefault();
-            const target = document.getElementById(id);
-            if (!target) return;
-
-            // If navigating to the schedule section, reset its internal scroller
-            if (
-              id === "schedule" &&
-              typeof window.resetScheduleScroller === "function"
-            ) {
-              try {
-                window.resetScheduleScroller();
-              } catch (err) {
-                /* ignore */
-              }
-            }
-
-            const navHeight = getNavHeight();
-            const targetDocTop =
-              target.getBoundingClientRect().top + window.pageYOffset;
-            const scrollToY = Math.max(0, targetDocTop - navHeight - 20);
-
-            window.scrollTo({ top: scrollToY, behavior: "smooth" });
-            history.pushState(null, null, "#" + text.toLowerCase());
-            // set active immediately for responsiveness
-            setActive(link);
-          });
         });
-
-        // Init on load / resize / scroll
-        window.addEventListener("scroll", updateActive, { passive: true });
-        window.addEventListener("resize", updateActive);
-        window.addEventListener("load", () => {
-          // Honor hash on load if present
-          const hash = window.location.hash.slice(1).toLowerCase();
-          if (hash) {
-            const matching = Array.from(navLinks).find(
-              (l) => l.textContent.trim().toLowerCase() === hash
-            );
-            if (matching) {
-              const id = navToSectionMap[matching.textContent.trim()];
-              const target = id && document.getElementById(id);
-              if (target) {
-                const navHeight = getNavHeight();
-                const targetDocTop =
-                  target.getBoundingClientRect().top + window.pageYOffset;
-                window.scrollTo({
-                  top: Math.max(0, targetDocTop - navHeight - 20),
-                });
-                setActive(matching);
-              }
-            }
-          }
-          updateActive();
-        });
-
-        // Run again shortly after load in case images/art reflow
-        setTimeout(updateActive, 350);
       })();
     </script>
     <script>
       (function () {
-        // Section-aware color responsiveness: detect which visual region sits under the nav
         const nav = document.querySelector(".nav");
         if (!nav) return;
         const wrapper = document.querySelector(".nav-wrapper") || nav;
-
-        // Key visual regions on the About page
-        const hero = document.querySelector("header.hero.about");
-        const orcasUnder = document.querySelector(".about-orcas-under");
-        const grad1 = document.querySelector(".about-gradient-bg");
-        const grad2 = document.querySelector(
-          ".gradient-bg-2.about-gradient-bg-2"
-        );
-        const footer = document.querySelector("footer.about-footer");
-
-        function navAnchorY() {
+        function getEffectiveBg(el) {
+          while (el && el !== document.documentElement) {
+            const cs = getComputedStyle(el);
+            const bg = cs.backgroundColor;
+            if (bg && bg !== "rgba(0, 0, 0, 0)" && bg !== "transparent")
+              return bg;
+            el = el.parentElement;
+          }
+          return "rgb(255,255,255)";
+        }
+        function rgbBrightness(rgb) {
+          const m = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+          if (!m) return 255;
+          const r = +m[1],
+            g = +m[2],
+            b = +m[3];
+          return 0.2126 * r + 0.7152 * g + 0.0722 * b; // relative luminance
+        }
+        function updateInvert() {
           const rect = nav.getBoundingClientRect();
-          return window.scrollY + rect.bottom + 6; // a few px below the nav
+          const sampleX = window.innerWidth / 2;
+          const sampleY = rect.bottom + 6; // below nav
+          const el = document.elementFromPoint(sampleX, sampleY);
+          if (!el) {
+            nav.classList.remove("invert");
+            wrapper.classList.remove("invert");
+            return;
+          }
+          const bg = getEffectiveBg(el);
+          const bright = rgbBrightness(bg);
+          if (bright < 128) {
+            nav.classList.add("invert");
+            wrapper.classList.add("invert");
+          } else {
+            nav.classList.remove("invert");
+            wrapper.classList.remove("invert");
+          }
         }
-        function containsY(el, y) {
-          if (!el) return false;
-          const r = el.getBoundingClientRect();
-          const top = window.scrollY + r.top;
-          const bottom = window.scrollY + r.bottom;
-          return y >= top && y <= bottom;
-        }
-
-        function elDocTop(el) {
-          const r = el.getBoundingClientRect();
-          return window.scrollY + r.top;
-        }
-        function currentTheme() {
-          const y = navAnchorY();
-          const orcasOverEl = document.querySelector(".about-orcas-over");
-          const orcasUnderEl = document.querySelector(".about-orcas-under");
-          const footerTop = footer
-            ? elDocTop(footer)
-            : Number.POSITIVE_INFINITY;
-          let orcasTop = Number.POSITIVE_INFINITY;
-          if (orcasOverEl) orcasTop = Math.min(orcasTop, elDocTop(orcasOverEl));
-          if (orcasUnderEl)
-            orcasTop = Math.min(orcasTop, elDocTop(orcasUnderEl));
-
-          // Revert to dark nav when over footer
-          if (y >= footerTop) return "light";
-          // Flip to white starting at the first orcas layer and persist until footer
-          if (isFinite(orcasTop) && y >= orcasTop) return "dark";
-          // Otherwise keep dark nav
-          return "light";
-        }
-
-        function applyTheme() {
-          const theme = currentTheme();
-          const invert = theme === "dark";
-          nav.classList.toggle("invert", invert);
-          wrapper.classList.toggle("invert", invert);
-        }
-
         let ticking = false;
-        function scheduleUpdate() {
-          if (ticking) return;
-          ticking = true;
-          requestAnimationFrame(() => {
-            applyTheme();
-            ticking = false;
-          });
-        }
-
-        window.addEventListener("scroll", scheduleUpdate, { passive: true });
-        window.addEventListener("resize", scheduleUpdate);
-        window.addEventListener("load", scheduleUpdate);
-        // Initial run
-        applyTheme();
-      })();
-    </script>
-    <script>
-      // Countdown timer
-      (function () {
-        // Event date: January 25th, 2026 at 8:00 AM (PST/PDT)
-        const eventDate = new Date("2026-01-25T08:00:00-08:00").getTime();
-
-        function updateCountdown() {
-          const countdownEl = document.querySelector(".countdown");
-          if (!countdownEl) return;
-
-          const now = Date.now();
-          let diff = eventDate - now;
-
-          const units = countdownEl.querySelectorAll(".unit strong");
-
-          if (units.length !== 4) {
-            console.warn("Expected 4 countdown units, found:", units.length);
-            return;
-          }
-
-          if (diff <= 0) {
-            // Event has started or passed
-            countdownEl.innerHTML =
-              '<div class="unit"><strong>00</strong><span>Event Started!</span></div>';
-            countdownEl.setAttribute("aria-label", "Event has started");
-            return;
-          }
-
-          // Calculate time difference
-          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-          const hours = Math.floor(
-            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-          );
-          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-          // Update the countdown values
-          units[0].textContent = days.toString().padStart(2, "0");
-          units[1].textContent = hours.toString().padStart(2, "0");
-          units[2].textContent = minutes.toString().padStart(2, "0");
-          units[3].textContent = seconds.toString().padStart(2, "0");
-
-          // Update aria-label for accessibility
-          const timeString = `${days} days, ${hours} hours, ${minutes} minutes, and ${seconds} seconds until the event`;
-          countdownEl.setAttribute("aria-label", timeString);
-        }
-
-        // Update immediately on load
-        updateCountdown();
-
-        // Update every second
-        const countdownInterval = setInterval(updateCountdown, 1000);
-
-        // Clean up interval when page unloads
-        window.addEventListener("beforeunload", () => {
-          if (countdownInterval) {
-            clearInterval(countdownInterval);
-          }
-        });
-      })();
-    </script>
-    <script>
-      // Ensure the About nav item is marked active on the About page
-      (function () {
-        const navLinks = document.querySelectorAll(".nav a.nav-item");
-        const aboutLink = Array.from(navLinks).find(
-          (l) => l.textContent.trim() === "About"
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (!ticking) {
+              requestAnimationFrame(() => {
+                updateInvert();
+                ticking = false;
+              });
+              ticking = true;
+            }
+          },
+          { passive: true }
         );
-        if (aboutLink) {
-          aboutLink.classList.add("active");
-          aboutLink.setAttribute("aria-current", "true");
-        }
+        window.addEventListener("resize", updateInvert);
+        updateInvert();
       })();
     </script>
   </body>
