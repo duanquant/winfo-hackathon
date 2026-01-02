@@ -1,5 +1,7 @@
 /* ---------- Tokens ---------- */
 :root {
+    --ink: #0b3039;            /* main text color used across the page */
+    --ink-soft: #214650;       /* softer secondary text color */
     --maxw: 60vh;             /* max readable width for text blocks */
 
     --hero-h: 150vh;
@@ -293,32 +295,60 @@ header.hero .layer {
     margin: 1% auto 0 auto;
     padding: 1% 2%;
     width: 90%; 
-    justify-content: center;
+        justify-content: center;
+        column-gap: 24px; /* stable desktop gap */
   }
 
-  .nav-item {
-  flex: 0 1 8%;
-  text-align: center;
-  position: relative;
-  text-decoration: none;
-    color: #0b3039; /* explicit base color to enable smooth transition */
-  cursor: pointer;
-    transition: font-weight 0.2s ease, color 0.4s ease;
+    .nav-item {
+    flex: 0 1 8%;
+    text-align: center;
+    position: relative;
+    text-decoration: none;
+        color: #0b3039; /* explicit base color to enable smooth transition */
+    cursor: pointer;
+        transition: font-weight 0.2s ease, color 0.4s ease;
 }
+    .nav-item .label {
+        display: inline-block;
+        position: relative;
+    }
 
 /* Underline indicator */
-.nav-item::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -4px; /* closer to text */
-  transform: translateX(-50%) scaleX(0);
-  width: 80%;
-  height: 2px; /* thinner underline */
-  background: #0b3039; /* base underline color */
-  border-radius: 2px;
-  transition: transform 0.3s ease, background-color 0.4s ease;
-  transform-origin: center;
+/* Underline indicator (exact word width, centered) */
+.nav-item .label::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -4px; /* closer to text */
+    transform: translateX(-50%) scaleX(0);
+    width: 100%;
+    height: 2px; /* thinner underline */
+    background: #0b3039; /* base underline color */
+    border-radius: 2px;
+    transition: transform 0.3s ease, background-color 0.4s ease;
+    transform-origin: center;
+}
+
+/* Tablet/Small desktop spacing (exclude mobile) */
+@media (max-width: 1024px) and (min-width: 481px) {
+    .nav-wrapper {
+        width: 94%;
+        padding: 8px 14px;
+        column-gap: 24px; /* match desktop gap */
+        justify-content: center; /* same alignment as desktop */
+    }
+    .nav-item {
+        flex: 0 1 auto;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 481px) {
+    .nav-wrapper {
+        font-size: 15px;
+        column-gap: 24px; /* match desktop gap */
+        width: 96%;
+        justify-content: center; /* same alignment as desktop */
+    }
 }
 
 /* Active state */
@@ -327,9 +357,9 @@ header.hero .layer {
   font-weight: 700;
 }
 
-.nav-item.active::after,
-.nav-item[aria-current="true"]::after {
-  transform: translateX(-50%) scaleX(1);
+.nav-item.active .label::after,
+.nav-item[aria-current="true"] .label::after {
+    transform: translateX(-50%) scaleX(1);
 }
 
 /* Hover state */
@@ -337,22 +367,23 @@ header.hero .layer {
   font-weight: 600;
 }
 
-.nav-item:hover::after {
-  transform: translateX(-50%) scaleX(0.5);
+.nav-item:hover .label::after {
+    transform: translateX(-50%) scaleX(0.5);
   opacity: 0.5;
 }
 
-.nav-item.active:hover::after,
-.nav-item[aria-current="true"]:hover::after {
-  transform: translateX(-50%) scaleX(1);
+.nav-item.active:hover .label::after,
+.nav-item[aria-current="true"]:hover .label::after {
+    transform: translateX(-50%) scaleX(1);
   opacity: 1;
 }
 
   /* Invert mode: when nav sits over dark background */
   .nav.invert .nav-item,
   .nav-wrapper.invert .nav-item { color: #ffffff; }
-  .nav.invert .nav-item::after,
-  .nav-wrapper.invert .nav-item::after { background: #ffffff; }:after { background: #ffffff; }
+    .nav.invert .nav-item .label::after,
+    .nav-wrapper.invert .nav-item .label::after { background: #ffffff; }
+
 
 /* about page clouds sprite - responsive full width */
 .about-clouds {
@@ -756,12 +787,12 @@ footer.about-footer .caption {
 }
 
 /* Mobile responsive styles */
-@media (max-width: 599px) {
+@media (max-width: 480px) {
     :root {
         /* Adjust typography for mobile */
         --h1-size: clamp(2rem, 8vw, 2.5rem);
         --h2-size: clamp(1.5rem, 6vw, 2rem);
-        --p-size: clamp(1.125rem, 1.125rem + 0.5vw, 1.125rem); /* 18px */
+        --p-size: clamp(0.95rem, 4vw, 1.15rem);
         --caption-size: clamp(0.65rem, 3vw, 0.8rem);
         --footer-caption-size: clamp(0.65rem, 2vw, 0.75rem);
         
@@ -770,64 +801,68 @@ footer.about-footer .caption {
         --spacing-md: clamp(1rem, 4vw, 1.5rem);
         --spacing-lg: clamp(1.5rem, 6vw, 2.5rem);
         --spacing-xl: clamp(2rem, 8vw, 3.5rem);
+        /* Mobile nav alignment control */
+        --nav-mobile-padding-left: 24px; /* base left for button */
+        --nav-x-offset: 2px;            /* nudge X bars right to match PNG content */
+        --nav-text-offset: 7px;         /* fine-tune overlay text to align with X */
     }
 
     /* mobile menu rules */
     .nav-wrapper {
         position: fixed;
-        top: 12px;
-        right: 12px;      
-        z-index: 10000;                    
-        width: 50vw;
-        max-width: 50vw !important;
-        height: auto !important;    
-        max-height: 40vh !important;
-        overflow: auto;                        
+        inset: 0;
+        z-index: 10000;
+        margin: 0;                 /* remove inherited top margin to avoid sliver */
+        width: 100vw;
+        height: 100vh !important;
+        overflow: auto;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;   
-        justify-content: flex-start; 
-        gap: 6px;                  
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 32px;
+        padding: 64px 32px;
+        padding-left: calc(var(--nav-mobile-padding-left) + var(--nav-x-offset) + var(--nav-text-offset)); /* align text to X visible left edge */
 
-        background: rgba(255,255,255,0.9);
-        -webkit-backdrop-filter: blur(1px);
-        backdrop-filter: blur(1px);
-        border: 1px solid #DDE6EB;
-        border-radius: 18px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+        background: #cfe8ec;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
 
-        transform: translateX(110%); 
+        transform: translateY(-104%);
         transition: transform .28s cubic-bezier(.2,.9,.2,1);
     }
     
     .nav-wrapper .nav-item {
         display: block;
         text-align: left;
-        padding: 4px 6px;            /* tighten vertical spacing */
+        padding: 0;
+        font-size: clamp(32px, 7.5vw, 52px);
+        line-height: 1.1;
         transition: color 0.35s ease;
     }
 
     /* underline */
-    .nav-wrapper .nav-item::after {
+    .nav-wrapper .nav-item .label::after {
         content: "";
         position: absolute;
         bottom: -4px;                 /* closer to text, as before */
         left: 50%;
         transform: translateX(-50%) scaleX(0);
-        width: 80%;
+        width: 100%;
         height: 2px;                  /* thinner underline */
         background: #0b3039;
         border-radius: 2px;           /* rounded ends */
         transition: transform 0.3s ease, background-color 0.35s ease;
         transform-origin: center;
     }
-    .nav-wrapper .nav-item.active::after,
-    .nav-wrapper .nav-item[aria-current="true"]::after {
+    .nav-wrapper .nav-item.active .label::after,
+    .nav-wrapper .nav-item[aria-current="true"] .label::after {
         transform: translateX(-50%) scaleX(1);
     }
     
     /* Hover animation to match desktop on mobile */
-    .nav-wrapper .nav-item:hover::after {
+    .nav-wrapper .nav-item:hover .label::after {
         transform: translateX(-50%) scaleX(0.5);
         opacity: 0.6;
     }
@@ -835,11 +870,11 @@ footer.about-footer .caption {
     .nav-toggle {
         position: fixed;
         top: 12px;
-        left: 12px;         
+        left: var(--nav-mobile-padding-left);         
         z-index: 10001;
         display: inline-flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start; /* keep hamburger and X at same left edge */
         width: 40px;
         height: 40px;
         border: 0;
@@ -849,11 +884,12 @@ footer.about-footer .caption {
         backdrop-filter: none;
         box-shadow: none;
     }
-    .nav-toggle .hamburger-icon { width: 22px; height: 22px; display: block; }
-    .nav-toggle .hamburger { display: none; }
-    .nav-toggle .hamburger-icon { width: 22px; height: 22px; display: block; }
-    .nav-toggle .hamburger { display: none; }
-    
+    .nav-toggle .hamburger-icon { width: 22px; height: 22px; display: block; margin-left: var(--nav-x-offset); }
+    .nav-toggle .hamburger { display: none; width: 22px; height: 22px; position: relative; margin-left: var(--nav-x-offset); }
+    .nav-toggle .hamburger span { display: block; width: 22px; height: 2px; background: #0b3039; border-radius: 2px; transition: transform .2s ease, opacity .2s ease; }
+    .nav-toggle .hamburger span + span { margin-top: 6px; }
+
+
     /* Backdrop */
     .nav-backdrop {
         position: fixed;
@@ -867,11 +903,27 @@ footer.about-footer .caption {
 
     /* Open state: show panel and backdrop */
     .nav.open .nav-wrapper {
-        transform: translateX(0);
+        transform: translateY(0);
     }
     .nav.open .nav-backdrop {
         opacity: 1;
     }
+
+    /* Keep nav colors dark on mobile overlay (disable white invert) */
+    .nav.open .nav-item,
+    .nav.open.invert .nav-item { color: #0b3039; }
+    .nav.open .nav-item .label::after,
+    .nav.open.invert .nav-item .label::after { background: #0b3039; }
+    /* Align X with menu text using CSS only */
+    .nav.open .nav-toggle { left: var(--nav-mobile-padding-left); justify-content: flex-start; }
+    /* When open: swap to animated bars (forms an X), hide image icon */
+    .nav.open .nav-toggle .hamburger-icon { display: none; }
+    .nav.open .nav-toggle .hamburger { display: inline-block; }
+    /* Invert support: white bars on dark backgrounds */
+    .nav.invert .nav-toggle .hamburger span { background: #ffffff; }
+    /* But keep bars dark when the mobile overlay is open */
+    .nav.open .nav-toggle .hamburger span,
+    .nav.open.invert .nav-toggle .hamburger span { background: #0b3039; }
 
     /* Hamburger animation */
     .nav.open .hamburger span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
