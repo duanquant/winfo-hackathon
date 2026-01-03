@@ -561,10 +561,11 @@ section[class="2024-winners"] .winner p:last-of-type {
 /* Winner images container */
 section[class="2024-winners"] .winner-images {
     display: flex;
-    justify-content: flex-start; 
-    gap: var(--spacing-sm);
+    justify-content: space-between; 
+    gap: clamp(12px, 2vw, 24px); 
     margin-top: var(--spacing-sm);
     margin-bottom: clamp(5rem, 10vw, 8.5rem);
+    width: 100%; 
 }
 
 /* Winner image wrapper */
@@ -572,27 +573,28 @@ section[class="2024-winners"] .winner-image-wrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    flex: 1; /* equal space for each wrapper */
 }
 
 /* Winner images */
 section[class="2024-winners"] .winner-image-left,
 section[class="2024-winners"] .winner-image-right {
-    width: clamp(200px, 25vw, 346px);
-    height: clamp(160px, 20vw, 275px);
+    width: 100%;
+    height: auto; 
     aspect-ratio: 346/275;
     border-radius: clamp(6px, 1vw, 10px);
-    object-fit: cover;
+    object-fit: contain; 
 }
 
 /* Full width image (spans both image slots) */
 section[class="2024-winners"] .winner-image-full {
     width: 100%;
-    max-width: clamp(450px, 55vw, 710px); /* two images + gap */
+    max-width: 100%;
 }
 
 section[class="2024-winners"] .winner-image-full img {
     width: 100%;
-    height: clamp(160px, 20vw, 275px);
+    height: auto;
     aspect-ratio: auto;
     border-radius: clamp(6px, 1vw, 10px);
     object-fit: contain; /* Use contain instead of cover to show full image */
@@ -1188,7 +1190,7 @@ footer.about-footer .caption {
 }
 
 /* Tablet responsive styles */
-@media (min-width: 600px) and (max-width: 1024px) {
+@media (min-width: 481px) and (max-width: 1024px) {
     :root {
         /* Adjust typography for tablets */
         --h1-size: clamp(2.25rem, 5vw, 2.75rem);
@@ -1364,16 +1366,22 @@ footer.about-footer .caption {
     
     /* Winner images stack vertically on tablet */
     section[class="2024-winners"] .winner-images {
-        flex-direction: column;
+        flex-direction: column; 
         gap: var(--spacing-sm);
         margin-bottom: clamp(7rem, 18vw, 11rem);
+        width: 100%;
+    }
+    
+    section[class="2024-winners"] .winner-image-wrapper {
+        width: 100%; 
     }
     
     section[class="2024-winners"] .winner-image-left,
     section[class="2024-winners"] .winner-image-right {
         width: 100%;
         height: auto;
-        min-height: 200px;
+        aspect-ratio: 346/275;
+        object-fit: contain; /* show full image without cropping */
     }
     
     section[class="2024-winners"] .winner-image-full {
@@ -1383,7 +1391,7 @@ footer.about-footer .caption {
     section[class="2024-winners"] .winner-image-full img {
         width: 100%;
         height: auto;
-        min-height: 200px;
+        object-fit: contain;
     }
     
     /* Footer adjustments for tablets */
