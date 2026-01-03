@@ -1729,6 +1729,7 @@ original normal lines to separate time/event rows:
     width: 90vw;
     padding-left: 5vw;
     padding-right: 5vw;
+    text-align: center;
   }
 
   .footer-divider {
