@@ -55,9 +55,9 @@ h3 {
 }
 
 p {
-  margin: 1.5rem 0;
-  /* vertical rhythm for paragraphs */
+  margin: 0 0 0.75rem 0;
   font-size: 20px;
+  line-height: 1.5;
 }
 
 summary {
