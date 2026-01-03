@@ -86,6 +86,14 @@ a {
   /* 22.5px */
 }
 
+.timeline .time {
+  font-size: 15px;
+}
+
+.timeline .evt {
+  font-size: 20px;
+}
+
 @media (max-width: 599px) {
   p {
     font-size: 18px;
@@ -107,7 +115,50 @@ a {
     font-size: 12px;
   }
 
+  .schedule-columns .meta .meta-item.caption {
+    font-size: 12px;
+  }
+
+  .timeline .time {
+    font-size: 10px;
+  }
+
+  .timeline .evt {
+    font-size: 12px;
+  }
+
   .summary {
     font-size: 20px;
   }
+
+  /* to fix how much width the text takes up for hero section */
+  .hero .intro {
+    max-width: 94vw;
+    padding-left: 3vw;
+    padding-right: 3vw;
+  }
+
+  /* to fix how much width the text takes up for midwater section & theme section */
+  .midwater .dive-in,
+  .theme-content .content {
+    max-width: 90vw;
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+
+  /* to fix how much width the text takes up for tracks section & faq section */
+  .tracks .content,
+  .faq .content {
+    max-width: 80vw;
+    padding-left: 10vw;
+    padding-right: 10vw;
+  }
+
+  /* to fix how much width the text takes up for schedules section */
+  .midnight.zone .schedule-panel .content {
+    max-width: 90vw;
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+
 }

@@ -9,37 +9,37 @@
     <link rel="stylesheet" href="https://use.typekit.net/xxr8qwd.css" />
   </head>
   <body>
-   <!-- navigation bar-->
-   <nav class="nav" aria-hidden="false">
-    <button
-      class="nav-toggle"
-      aria-label="Open menu"
-      aria-expanded="false"
-      aria-controls="site-navigation"
-    >
-      <img src="assets/nav/hamburger.png" alt="Menu" class="hamburger-icon" />
-      <span class="hamburger" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </span>
-    </button>
+    <!-- navigation bar-->
+    <nav class="nav" aria-hidden="false">
+      <button
+        class="nav-toggle"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="site-navigation"
+      >
+        <img src="assets/nav/hamburger.png" alt="Menu" class="hamburger-icon" />
+        <span class="hamburger" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
 
-    <div id="site-navigation" class="nav-wrapper" role="navigation">
-      <a href="landing.html#home" class="nav-item"
-        ><span class="label">Home</span></a
-      >
-      <a href="landing.html#schedule" class="nav-item"
-        ><span class="label">Schedule</span></a
-      >
-      <a href="landing.html#faq" class="nav-item"
-        ><span class="label">FAQ</span></a
-      >
-      <a href="about_us.html" class="nav-item"
-        ><span class="label">About</span></a
-      >
-    </div>
+      <div id="site-navigation" class="nav-wrapper" role="navigation">
+        <a href="landing.html#home" class="nav-item"
+          ><span class="label">Home</span></a
+        >
+        <a href="landing.html#schedule" class="nav-item"
+          ><span class="label">Schedule</span></a
+        >
+        <a href="landing.html#faq" class="nav-item"
+          ><span class="label">FAQ</span></a
+        >
+        <a href="about_us.html" class="nav-item"
+          ><span class="label">About</span></a
+        >
+      </div>
 
-    <div class="nav-backdrop" data-nav-backdrop></div>
-  </nav>
+      <div class="nav-backdrop" data-nav-backdrop></div>
+    </nav>
     <!-- hero/about us section -->
     <header class="hero wrap about">
       <!-- clouds layer (About page) -->
@@ -329,7 +329,7 @@
         <!-- Winner 4 -->
         <div class="winner">
           <img src="assets_about/Line 6.svg" alt="" class="winner-line" />
-          <h3 >Best Overall — “Beacon”</h3>
+          <h3>Best Overall — “Beacon”</h3>
           <p>
             Inspired by stories of resilience, we created Beacon, your ultimate
             disaster preparedness and response app, designed to provide
@@ -400,128 +400,128 @@
       </div>
     </footer>
     <script>
-      // Mobile nav toggle (hamburger)
-      (() => {
+      // Mobile nav toggle for About page
+      (function () {
         const nav = document.querySelector(".nav");
-        const toggleBtn = document.querySelector(".nav-toggle");
-        const navWrapper = document.getElementById("site-navigation");
+        const btn = document.querySelector(".nav-toggle");
+        const wrapper = document.getElementById("site-navigation");
         const backdrop = document.querySelector("[data-nav-backdrop]");
-        const focusableSelectors =
-          'a[href], area[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+        if (!nav || !btn || !wrapper) return;
 
-        if (!nav || !toggleBtn || !navWrapper) return;
+        function openNav() {
+          nav.classList.add("open");
+          btn.setAttribute("aria-expanded", "true");
+          document.documentElement.classList.add("nav-open");
+          if (backdrop) backdrop.style.pointerEvents = "auto";
+        }
+        function closeNav() {
+          nav.classList.remove("open");
+          btn.setAttribute("aria-expanded", "false");
+          document.documentElement.classList.remove("nav-open");
+          if (backdrop) backdrop.style.pointerEvents = "none";
+        }
+        function toggleNav() {
+          const expanded = btn.getAttribute("aria-expanded") === "true";
+          expanded ? closeNav() : openNav();
+        }
 
-        const setOpen = (open) => {
-          nav.classList.toggle("open", open);
-          toggleBtn.setAttribute("aria-expanded", String(open));
-          navWrapper.setAttribute("aria-hidden", String(!open));
-          document.body.style.overflow = open ? "hidden" : "";
-        };
-
-        // Initialize hidden state
-        setOpen(false);
-
-        toggleBtn.addEventListener("click", () => {
-          const isOpen = toggleBtn.getAttribute("aria-expanded") === "true";
-          setOpen(!isOpen);
-
-          // Move focus to first item when opening
-          if (!isOpen) {
-            const firstFocusable = navWrapper.querySelector(focusableSelectors);
-            firstFocusable?.focus();
-          }
-        });
-
-        // Close when clicking backdrop
-        backdrop?.addEventListener("click", () => setOpen(false));
-
-        // Close on escape key
+        btn.addEventListener("click", toggleNav);
+        if (backdrop) backdrop.addEventListener("click", closeNav);
         document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") setOpen(false);
+          if (e.key === "Escape") closeNav();
         });
-
-        // Close when selecting a nav item (useful on mobile)
-        navWrapper.addEventListener("click", (e) => {
-          const target = e.target;
-          if (target && target.closest && target.closest(".nav-item")) {
-            setOpen(false);
-          }
-        });
-      })();
-
-      // Highlight "About" nav item when on about_us.html page
-      (() => {
-        const navLinks = document.querySelectorAll(".nav a.nav-item");
-        navLinks.forEach((link) => {
-          if (
-            link.getAttribute("href") === "about_us.html" ||
-            link.textContent.trim() === "About"
-          ) {
-            link.classList.add("active");
-            link.setAttribute("aria-current", "page");
-          }
+        wrapper.querySelectorAll(".nav-item").forEach((a) => {
+          a.addEventListener("click", () => closeNav());
         });
       })();
     </script>
     <script>
       (function () {
+        // Section-aware color responsiveness: detect which visual region sits under the nav
         const nav = document.querySelector(".nav");
         if (!nav) return;
         const wrapper = document.querySelector(".nav-wrapper") || nav;
-        function getEffectiveBg(el) {
-          while (el && el !== document.documentElement) {
-            const cs = getComputedStyle(el);
-            const bg = cs.backgroundColor;
-            if (bg && bg !== "rgba(0, 0, 0, 0)" && bg !== "transparent")
-              return bg;
-            el = el.parentElement;
-          }
-          return "rgb(255,255,255)";
-        }
-        function rgbBrightness(rgb) {
-          const m = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-          if (!m) return 255;
-          const r = +m[1],
-            g = +m[2],
-            b = +m[3];
-          return 0.2126 * r + 0.7152 * g + 0.0722 * b; // relative luminance
-        }
-        function updateInvert() {
-          const rect = nav.getBoundingClientRect();
-          const sampleX = window.innerWidth / 2;
-          const sampleY = rect.bottom + 6; // below nav
-          const el = document.elementFromPoint(sampleX, sampleY);
-          if (!el) {
-            nav.classList.remove("invert");
-            wrapper.classList.remove("invert");
-            return;
-          }
-          const bg = getEffectiveBg(el);
-          const bright = rgbBrightness(bg);
-          if (bright < 128) {
-            nav.classList.add("invert");
-            wrapper.classList.add("invert");
-          } else {
-            nav.classList.remove("invert");
-            wrapper.classList.remove("invert");
-          }
-        }
-        let ticking = false;
-        window.addEventListener(
-          "scroll",
-          () => {
-            if (!ticking) {
-              requestAnimationFrame(() => {
-                updateInvert();
-                ticking = false;
-              });
-              ticking = true;
-            }
-          },
-          { passive: true }
+
+        // Key visual regions on the About page
+        const hero = document.querySelector("header.hero.about");
+        const orcasUnder = document.querySelector(".about-orcas-under");
+        const grad1 = document.querySelector(".about-gradient-bg");
+        const grad2 = document.querySelector(
+          ".gradient-bg-2.about-gradient-bg-2"
         );
-        window.addEventListener("resize", updateInvert);
-        updateInvert();
+        const footer = document.querySelector("footer.about-footer");
+
+        function navAnchorY() {
+          const rect = nav.getBoundingClientRect();
+          return window.scrollY + rect.bottom + 6; // a few px below the nav
+        }
+        function containsY(el, y) {
+          if (!el) return false;
+          const r = el.getBoundingClientRect();
+          const top = window.scrollY + r.top;
+          const bottom = window.scrollY + r.bottom;
+          return y >= top && y <= bottom;
+        }
+
+        function elDocTop(el) {
+          const r = el.getBoundingClientRect();
+          return window.scrollY + r.top;
+        }
+        function currentTheme() {
+          const y = navAnchorY();
+          const orcasOverEl = document.querySelector(".about-orcas-over");
+          const orcasUnderEl = document.querySelector(".about-orcas-under");
+          const footerTop = footer
+            ? elDocTop(footer)
+            : Number.POSITIVE_INFINITY;
+          let orcasTop = Number.POSITIVE_INFINITY;
+          if (orcasOverEl) orcasTop = Math.min(orcasTop, elDocTop(orcasOverEl));
+          if (orcasUnderEl)
+            orcasTop = Math.min(orcasTop, elDocTop(orcasUnderEl));
+
+          // Revert to dark nav when over footer
+          if (y >= footerTop) return "light";
+          // Flip to white starting at the first orcas layer and persist until footer
+          if (isFinite(orcasTop) && y >= orcasTop) return "dark";
+          // Otherwise keep dark nav
+          return "light";
+        }
+
+        function applyTheme() {
+          const theme = currentTheme();
+          const invert = theme === "dark";
+          nav.classList.toggle("invert", invert);
+          wrapper.classList.toggle("invert", invert);
+        }
+
+        let ticking = false;
+        function scheduleUpdate() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => {
+            applyTheme();
+            ticking = false;
+          });
+        }
+
+        window.addEventListener("scroll", scheduleUpdate, { passive: true });
+        window.addEventListener("resize", scheduleUpdate);
+        window.addEventListener("load", scheduleUpdate);
+        // Initial run
+        applyTheme();
+      })();
+    </script>
+    <script>
+      // Ensure the About nav item is marked active on the About page
+      (function () {
+        const navLinks = document.querySelectorAll(".nav a.nav-item");
+        const aboutLink = Array.from(navLinks).find(
+          (l) => l.textContent.trim() === "About"
+        );
+        if (aboutLink) {
+          aboutLink.classList.add("active");
+          aboutLink.setAttribute("aria-current", "true");
+        }
       })();
     </script>
   </body>
