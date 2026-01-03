@@ -1703,7 +1703,7 @@ original normal lines to separate time/event rows:
 .footer .copyright {
   font-size: 12px;
   font-weight: 500;
-  margin: 0;
+  margin: 0 12px 0 0;
 }
 
 /* accessibility helper for hidden headings */

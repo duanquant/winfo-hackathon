@@ -605,86 +605,256 @@ section[class="2024-winners"] .winner-image-wrapper .caption {
     color: var(--Text-Text-Primary, #F2F2F4);
 }
 
-/* Footer section - positioned under 2024-winners */
-footer.about-footer {
-    position: relative;
+/* ========== FOOTER ========== */
+.footer {
+  position: relative;
+  background: #a5c0c3;
+  color: #0b3039;
+  padding: 140px 0 60px;
+  /* more room for art + panel */
+  overflow: hidden;
+}
+
+.footer-inner {
+  position: relative;
+  z-index: 2;
+  /* above art */
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* top sand + fish art */
+.footer-art {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.footer-sand {
+  position: absolute;
+  top: -20vh;
+  /* slightly overlapping from above */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  z-index: 0;
+}
+
+.footer-fish {
+  position: absolute;
+  top: 22vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+}
+
+/* ---- Sponsors ---- */
+.sponsors {
+  position: relative;
+  z-index: 2;
+  max-width: 100%;
+}
+
+.sponsors-panel {
+  margin: 650px 0 100px;
+  border-radius: 24px;
+  padding: 18px 10px;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Flex-based sponsor layout */
+.sponsors-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 40px;
+  /* space between cards horizontally */
+  row-gap: 35px;
+  /* space between rows */
+  margin: 0 auto;
+  max-width: 80vw;
+}
+
+/* Cards: same height, width based on logo size */
+.sponsor-card {
+  height: 170px;
+  /* all cards same height */
+  padding: 3px 10px;
+  /* breathing room around logos */
+
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 auto;
+  /* <- width = intrinsic, do NOT stretch */
+  width: auto;
+}
+
+.sponsor-card img {
+  height: 90%;
+  /* fills most of the card height */
+  width: auto;
+  /* keep aspect ratio */
+  max-width: 100%;
+  /* don’t overflow card */
+  object-fit: contain;
+  display: block;
+}
+
+/* Tablet: tighter width so it tends to wrap into ~2 per row */
+@media (max-width: 1024px) {
+  .sponsors-grid {
+    max-width: 80vw;
+    /* usually gives 2 cards per row */
+  }
+
+  .sponsors-panel {
+    margin: 300px 0 100px;
+  }
+
+  .sponsor-card {
+    height: 140px;
+    padding: 2px 4px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .sponsors-grid {
+    column-gap: 15px;
+    /* space between cards horizontally */
+    row-gap: 15px;
+    /* space between rows */
+    max-width: 80vw;
+  }
+
+  .sponsor-card {
+    height: 65px;
+    padding: 2px 4px;
+    border-radius: 7px;
+  }
+}
+
+
+/* ---- Divider line ---- */
+.footer-divider {
+  margin: 32px 70px 24px;
+  border: 0;
+  border-top: 1px solid rgba(11, 48, 57, 0.3);
+}
+
+/* ---- Bottom rows ---- */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-left: 70px;
+  margin-right: 70px;
+  flex-wrap: wrap;
+}
+
+.footer-left .made {
+  margin: 0;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* right side: social icons row + copyright row */
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  text-align: right;
+  margin-left: auto;
+}
+
+.footer .socials {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+}
+
+.footer .socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 6px 10px;
+}
+
+.footer .copyright {
+  font-size: 12px;
+  font-weight: 500;
+  margin: 0 12px 0 0;
+}
+
+/* accessibility helper for hidden headings */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* responsive tweaks */
+@media (max-width: 720px) {
+  .sponsors-panel {
+    margin: 70px 0 32px;
+  }
+
+  .footer-inner {
+    width: 90vw;
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+
+  .footer-divider {
+    margin: 24px 0 18px;
+    /* remove the 70px side margins */
+  }
+
+  .footer-bottom {
+    margin-left: 0;
+    margin-right: 0;
     width: 100%;
-    height: calc(971 / 1440 * 100vw); 
-    overflow: visible; 
-    background: #A5C0C2; 
-    flex-shrink: 0;
-    z-index: calc(var(--z-gradient-bg-2) + 1); /* above gradient 2 */
-}
+  }
 
-footer.about-footer .layer {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-}
+  /* make "footer-left" behave like a real full-width block */
+  .footer-left {
+    width: 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 
-.footer-bg {
-    z-index: calc(var(--z-gradient-bg-2) + 1); /* above gradient 2 */
-}
+  /* socials: smaller + less padding so they feel proportional */
+  .footer .socials {
+    gap: 8px;
+  }
 
-/* Footer line SVG */
-footer.about-footer .footer-line {
-    position: absolute;
-    width: clamp(500px, calc(1200 / 1440 * 100vw), 1300px); /* responsive width (1200px at 1440px viewport) */
-    height: auto; /* maintain aspect ratio from SVG */
-    flex-shrink: 0;
-    top: 68%; /* positioned at top of footer */
-    left: 50%;
-    transform: translateX(-50%); /* center horizontally */
-    z-index: calc(var(--z-gradient-bg-2) + 2); /* above footer background */
-    display: block; /* ensure it's visible */
-}
+  .footer .socials a {
+    padding: 4px;
+    /* was 6px 10px */
+  }
 
-/* Footer text */
-footer.about-footer .footer-text {
-    position: absolute;
-    top: calc(68% + 2px + var(--spacing-sm)); /* footer line top + line height + spacing */
-    left: clamp(9%, 12%, 13%);
-    margin: 0;
-    z-index: calc(var(--z-gradient-bg-2) + 2); /* same level as footer line */
-}
-
-/* Social media icons */
-footer.about-footer .social-media {
-    position: absolute;
-    top: calc(68% + 2px + var(--spacing-sm) + 10rem); /* footer line top + line height + spacing + offset below text */
-    right: clamp(9%, 10%, 14%);
-    display: flex;
-    align-items: center;
-    gap: clamp(12px, 2vw, 24px);
-    z-index: calc(var(--z-gradient-bg-2) + 2); /* same level as footer line */
-    padding: var(--spacing-sm); /* add some padding from edges */
-}
-
-footer.about-footer .social-media img {
+  .footer .socials img {
+    width: 22px;
+    height: 22px;
     display: block;
-    width: clamp(20px, 2.5vw, 32px);
-    height: clamp(20px, 2.5vw, 32px);
-}
-
-/* Footer caption using existing .caption class */
-footer.about-footer .caption {
-    position: absolute;
-    top: calc(40% + 2px + var(--spacing-sm) + 1.5rem); /* footer line top + line height + spacing + offset (between text and social) */
-    right: clamp(5%, 6%, 14%);
-    z-index: calc(var(--z-gradient-bg-2) + 2); /* same level as footer line */
-    color: var(--Cool-Black, #101111); /* ensure text is visible */
-}
-
-.about-footer-bg {
-    position: absolute;
-    top: clamp(-27vw, -26vw, -365px); /* position at top of footer container - where it meets 2024-winners */
-    left: 0;
-    width: 100%;
-    height: calc(407 / 1440 * 100vw); /* responsive height (407px at 1440px viewport) */
-    flex-shrink: 0;
-    aspect-ratio: 1440/407;
-    background: url("assets_about/footer new 1.png") center / cover no-repeat;
-    z-index: calc(var(--z-gradient-bg-2) + 1); /* above gradient 2 */
+  }
 }
 
 .about-seal-adults {
@@ -1094,45 +1264,6 @@ footer.about-footer .caption {
         height: auto;
         min-height: 200px;
     }
-    
-    /* Footer adjustments for mobile */
-    footer.about-footer {
-        height: calc(671 / 390 * 100vw);
-    }
-    
-    .about-footer-bg {
-        top: clamp(-26vw, -35vw, -500px);
-        height: calc(407 / 390 );
-    }
-    
-    footer.about-footer .footer-line {
-        width: 83vw;
-        height: auto;
-        top: 60%;
-    }
-    
-    footer.about-footer .footer-text {
-        top: calc(60% + 2px + var(--spacing-sm));
-        left: 9%;
-    }
-    
-    footer.about-footer .social-media {
-        top: calc(60% + 2px + var(--spacing-sm) + 4rem);
-        right: 5%;
-        gap: clamp(8px, 3vw, 16px);
-        flex-wrap: wrap;
-        justify-content: flex-end;
-    }
-    
-    footer.about-footer .social-media img {
-        width: clamp(18px, 5vw, 28px);
-        height: clamp(18px, 5vw, 28px);
-    }
-    
-    footer.about-footer .caption {
-        top: calc(60% + 2px + var(--spacing-sm) + 2rem);
-        right: 5%;
-    }
 }
 
 /* Tablet responsive styles */
@@ -1291,42 +1422,7 @@ footer.about-footer .caption {
         height: auto;
         object-fit: contain;
     }
-    
-    /* Footer adjustments for tablets */
-    footer.about-footer {
-        height: calc(1400 / 1024 * 100vw);
-    }
 
-    .about-footer-bg {
-        top: clamp(-28vw, -27vw, -300px);
-        height: calc(407 / 1024 * 100vw);
-    }
-
-    footer.about-footer .footer-line {
-        width: clamp(450px, 76.5vw, 1150px);
-        top: 66%;
-    }
-
-    footer.about-footer .footer-text {
-        top: calc(66% + 2px + var(--spacing-sm));
-        font-size: clamp(0.95rem, 2.5vw, 1.15rem);
-        width: clamp(400px, 69vw, 1150px);
-    }
-    
-    footer.about-footer .social-media {
-        top: calc(66% + 2px + var(--spacing-sm) + 7rem);
-        gap: clamp(14px, 2.5vw, 20px);
-    }
-    
-    footer.about-footer .social-media img {
-        width: clamp(22px, 3vw, 30px);
-        height: clamp(22px, 3vw, 30px);
-    }
-
-    footer.about-footer .caption {
-        top: calc(66% + 2px + var(--spacing-sm) + 2.5rem);
-        font-size: var(--footer-caption-size);
-    }
 }
 
 @media (min-width: 1400px){ :root{ --theme-offset: 50vh; } }
