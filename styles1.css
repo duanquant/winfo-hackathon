@@ -63,6 +63,11 @@ html,
 body {
   height: 100%;
   /* allow 100vh calculations to work as expected */
+
+  /* this is the code that removes the horizontal scroll issue,
+     BUT it disables vertical scrolling for mobile and tablet.
+    overflow-x: hidden;
+    max-width: 100vw; */
 }
 
 body {
@@ -86,6 +91,7 @@ body.bg-desktop {
 @media (min-width: 769px) and (max-width: 1024px) {
   body.bg-desktop {
     background: url("assets/background/bg-tablet.png") center top/cover no-repeat;
+    background-color: #6bbbd1;
   }
 }
 
@@ -93,6 +99,7 @@ body.bg-desktop {
 @media (max-width: 768px) {
   body.bg-desktop {
     background: url("assets/background/bg-mobile.png") center top/cover no-repeat;
+    background-color: #6bbbd1;
   }
 }
 
