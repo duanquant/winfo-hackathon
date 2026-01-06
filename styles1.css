@@ -985,7 +985,7 @@ section.reef .layer {
   position: relative;
   --cave-extra: 120vh;
   min-height: calc(180vh + var(--cave-extra));
-  background: #233137;
+  background: #101417;
   /* baseline bg color, overriden with gradient below */
   color: #E7F7FA;
   overflow-x: hidden;
