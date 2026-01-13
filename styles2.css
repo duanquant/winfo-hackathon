@@ -436,7 +436,7 @@ header.hero .layer {
     height: auto;              /* maintain aspect ratio */
     aspect-ratio: 894.79/2386.10;
     background: url("assets_about/sunlight.png") center / cover no-repeat;
-    filter: grayscale(20%) brightness(200%) contrast(120%) saturate(100%) opacity(0.9);
+    filter: grayscale(40%) brightness(120%) contrast(120%) saturate(100%) opacity(0.8);
     opacity: 1;
     mix-blend-mode: plus-lighter;
     transform: translateX(-50%) rotate(7.721deg);
