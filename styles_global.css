@@ -71,7 +71,7 @@ a {
 .caption {
   font-size: 15px;
   /* small label style */
-  letter-spacing: 120%;
+  letter-spacing: .04em;
   /* slight tracking for uppercase */
   text-transform: uppercase;
   /* label look */
@@ -159,6 +159,14 @@ a {
     max-width: 90vw;
     padding-left: 5vw;
     padding-right: 5vw;
+  }
+
+}
+
+/* Tablet: 600px–1024px */
+@media (min-width: 600px) and (max-width: 1024px) {
+  p {
+    font-size: 18px;
   }
 
 }
