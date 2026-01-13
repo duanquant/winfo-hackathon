@@ -933,10 +933,14 @@
         });
       })();
     </script>
-    <script>
-      // if (window.matchMedia("(max-width: 1024px)").matches) return;
 
+    <script>
       (function () {
+        const isSmall = window.matchMedia("(max-width: 1024px)").matches;
+        const isTouch = window.matchMedia("(pointer: coarse)").matches;
+
+        if (isSmall || isTouch) return;
+
         const section = document.querySelector(".midnight");
         if (!section) return;
 
@@ -991,100 +995,82 @@
         const canUp = () => offset > 0;
 
         // Helper: is the pointer currently over the schedule panel?
-        function isPointerOverPanel(clientX, clientY) {
-          if (!panel) return false;
-          const el = document.elementFromPoint(clientX, clientY);
-          return !!(el && (el === panel || panel.contains(el)));
-        }
+        // function isPointerOverPanel(clientX, clientY) {
+        //   if (!panel) return false;
+        //   const el = document.elementFromPoint(clientX, clientY);
+        //   return !!(el && (el === panel || panel.contains(el)));
+        // }
 
         // Route wheel to the virtual scroller only when the pointer is over the schedule panel
         function onWheel(e) {
-          if (!isLockedPhase()) return;
-          // Avoid intercepting page scroll when user is over FAQ or elsewhere
-          if (typeof e.clientX === "number" && typeof e.clientY === "number") {
-            if (!isPointerOverPanel(e.clientX, e.clientY)) return;
-          }
-          const dy = e.deltaY;
+  if (!isLockedPhase()) return;
 
-          if (dy > 0) {
-            // down
-            if (canDown()) {
-              e.preventDefault();
-              offset = Math.min(maxOff, offset + dy);
-              inner.style.transform = `translateY(${-offset}px)`;
-            } else {
-              // at bottom → release to page scroll (no preventDefault)
-            }
-          } else if (dy < 0) {
-            // up
-            if (canUp()) {
-              e.preventDefault();
-              offset = Math.max(0, offset + dy);
-              inner.style.transform = `translateY(${-offset}px)`;
-            } else {
-              // at top → release to page scroll
-            }
-          }
-        }
+  const dy = e.deltaY;
 
-        // Keyboard (arrows, page up/down, space)
-        function onKey(e) {
-          if (!isLockedPhase()) return;
-          // Only consume keyboard scrolling when the schedule panel is the user's focus/hover target
-          if (!panel.matches(":hover")) return;
-          const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " "];
-          if (!keys.includes(e.key)) return;
+  if (dy > 0) {
+    if (canDown()) {
+      e.preventDefault();
+      offset = Math.min(maxOff, offset + dy);
+      inner.style.transform = `translateY(${-offset}px)`;
+    }
+  } else if (dy < 0) {
+    if (canUp()) {
+      e.preventDefault();
+      offset = Math.max(0, offset + dy);
+      inner.style.transform = `translateY(${-offset}px)`;
+    }
+  }
+}
 
-          const step = Math.max(80, Math.floor(viewH * 0.9));
-          let dy = 0;
-          if (e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ")
-            dy = step;
-          if (e.key === "ArrowUp" || e.key === "PageUp") dy = -step;
+function onKey(e) {
+  if (!isLockedPhase()) return;
 
-          if (dy > 0 && canDown()) {
-            e.preventDefault();
-            offset = Math.min(maxOff, offset + dy);
-          }
-          if (dy < 0 && canUp()) {
-            e.preventDefault();
-            offset = Math.max(0, offset + dy);
-          }
-          inner.style.transform = `translateY(${-offset}px)`;
-        }
+  const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " "];
+  if (!keys.includes(e.key)) return;
 
-        // Touch
-        let startY = 0;
-        let touchInPanel = false;
-        function onTouchStart(e) {
-          if (!isLockedPhase()) {
-            touchInPanel = false;
-            return;
-          }
-          const t = e.touches && e.touches[0];
-          if (!t) return;
-          startY = t.clientY;
-          touchInPanel = isPointerOverPanel(t.clientX, t.clientY);
-        }
-        function onTouchMove(e) {
-          if (!isLockedPhase() || !touchInPanel) return;
-          const dy = startY - e.touches[0].clientY; // swipe up => positive (scroll down)
-          if (dy > 0 && canDown()) {
-            e.preventDefault();
-            offset = Math.min(maxOff, offset + dy);
-          }
-          if (dy < 0 && canUp()) {
-            e.preventDefault();
-            offset = Math.max(0, offset + dy);
-          }
-          inner.style.transform = `translateY(${-offset}px)`;
-        }
+  const step = Math.max(80, Math.floor(viewH * 0.9));
+  let dy = 0;
+  if (e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") dy = step;
+  if (e.key === "ArrowUp" || e.key === "PageUp") dy = -step;
 
-        // Attach handlers to the schedule panel only, so the page never "sticks"
-        // unless the pointer is interacting with the schedule content.
-        panel.addEventListener("wheel", onWheel, { passive: false });
-        window.addEventListener("keydown", onKey, { passive: false });
-        panel.addEventListener("touchstart", onTouchStart, { passive: true });
-        panel.addEventListener("touchmove", onTouchMove, { passive: false });
+  if (dy > 0 && canDown()) {
+    e.preventDefault();
+    offset = Math.min(maxOff, offset + dy);
+  }
+  if (dy < 0 && canUp()) {
+    e.preventDefault();
+    offset = Math.max(0, offset + dy);
+  }
+  inner.style.transform = `translateY(${-offset}px)`;
+}
+
+// Touch
+let startY = 0;
+function onTouchStart(e) {
+  if (!isLockedPhase()) return;
+  const t = e.touches && e.touches[0];
+  if (!t) return;
+  startY = t.clientY;
+}
+function onTouchMove(e) {
+  if (!isLockedPhase()) return;
+  const dy = startY - e.touches[0].clientY;
+  if (dy > 0 && canDown()) {
+    e.preventDefault();
+    offset = Math.min(maxOff, offset + dy);
+  }
+  if (dy < 0 && canUp()) {
+    e.preventDefault();
+    offset = Math.max(0, offset + dy);
+  }
+  inner.style.transform = `translateY(${-offset}px)`;
+}
+
+// Attach globally
+window.addEventListener("wheel", onWheel, { passive: false });
+window.addEventListener("keydown", onKey, { passive: false });
+window.addEventListener("touchstart", onTouchStart, { passive: true });
+window.addEventListener("touchmove", onTouchMove, { passive: false });
 
         /* Expose a reset function so external code (nav) can restore the schedules scroller */
         window.resetScheduleScroller = function () {
