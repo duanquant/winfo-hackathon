@@ -529,18 +529,15 @@
                     </li>
                     <li>
                       <span class="time">01:30 PM</span
-                      ><span class="evt">Track 2 Group Presentations</span
-                      >
+                      ><span class="evt">Track 2 Group Presentations</span>
                     </li>
                     <li>
                       <span class="time">02:00 PM</span
-                      ><span class="evt">Track 3 Group Presentations</span
-                      >
+                      ><span class="evt">Track 3 Group Presentations</span>
                     </li>
                     <li>
                       <span class="time">02:30 PM</span
-                      ><span class="evt">Track 4 Group Presentations</span
-                      >
+                      ><span class="evt">Track 4 Group Presentations</span>
                     </li>
                     <li>
                       <span class="time">03:00 PM</span
@@ -781,7 +778,11 @@
           src="assets/footer/sand-extension.png"
           alt=""
         /> -->
-        <img class="footer-fish" src="assets/footer/footer-fish-with-black.png" alt="" />
+        <img
+          class="footer-fish"
+          src="assets/footer/footer-fish-with-black.png"
+          alt=""
+        />
       </div>
 
       <!-- Sponsors grid -->
@@ -860,7 +861,11 @@
 
           <div class="footer-right">
             <div class="socials" aria-label="Social media">
-              <a href="http://winfo.ischool.uw.edu/" aria-label="Website" target="_blank" rel="noopener noreferrer"
+              <a
+                href="http://winfo.ischool.uw.edu/"
+                aria-label="Website"
+                target="_blank"
+                rel="noopener noreferrer"
                 ><img src="assets_about/Hackathon Website_icon/website.svg"
               /></a>
               <a href="mailto:winfo@uw.edu" aria-label="Email" target="_blank"
@@ -880,7 +885,11 @@
                 rel="noopener noreferrer"
                 ><img src="assets_about/Hackathon Website_icon/linkedin.svg"
               /></a>
-              <a href="https://www.youtube.com/@uw_winfo" aria-label="YouTube" target="_blank" rel="noopener noreferrer"
+              <a
+                href="https://www.youtube.com/@uw_winfo"
+                aria-label="YouTube"
+                target="_blank"
+                rel="noopener noreferrer"
                 ><img src="assets_about/Hackathon Website_icon/youtube.svg"
               /></a>
               <a
@@ -1003,74 +1012,75 @@
 
         // Route wheel to the virtual scroller only when the pointer is over the schedule panel
         function onWheel(e) {
-  if (!isLockedPhase()) return;
+          if (!isLockedPhase()) return;
 
-  const dy = e.deltaY;
+          const dy = e.deltaY;
 
-  if (dy > 0) {
-    if (canDown()) {
-      e.preventDefault();
-      offset = Math.min(maxOff, offset + dy);
-      inner.style.transform = `translateY(${-offset}px)`;
-    }
-  } else if (dy < 0) {
-    if (canUp()) {
-      e.preventDefault();
-      offset = Math.max(0, offset + dy);
-      inner.style.transform = `translateY(${-offset}px)`;
-    }
-  }
-}
+          if (dy > 0) {
+            if (canDown()) {
+              e.preventDefault();
+              offset = Math.min(maxOff, offset + dy);
+              inner.style.transform = `translateY(${-offset}px)`;
+            }
+          } else if (dy < 0) {
+            if (canUp()) {
+              e.preventDefault();
+              offset = Math.max(0, offset + dy);
+              inner.style.transform = `translateY(${-offset}px)`;
+            }
+          }
+        }
 
-function onKey(e) {
-  if (!isLockedPhase()) return;
+        function onKey(e) {
+          if (!isLockedPhase()) return;
 
-  const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " "];
-  if (!keys.includes(e.key)) return;
+          const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " "];
+          if (!keys.includes(e.key)) return;
 
-  const step = Math.max(80, Math.floor(viewH * 0.9));
-  let dy = 0;
-  if (e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") dy = step;
-  if (e.key === "ArrowUp" || e.key === "PageUp") dy = -step;
+          const step = Math.max(80, Math.floor(viewH * 0.9));
+          let dy = 0;
+          if (e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ")
+            dy = step;
+          if (e.key === "ArrowUp" || e.key === "PageUp") dy = -step;
 
-  if (dy > 0 && canDown()) {
-    e.preventDefault();
-    offset = Math.min(maxOff, offset + dy);
-  }
-  if (dy < 0 && canUp()) {
-    e.preventDefault();
-    offset = Math.max(0, offset + dy);
-  }
-  inner.style.transform = `translateY(${-offset}px)`;
-}
+          if (dy > 0 && canDown()) {
+            e.preventDefault();
+            offset = Math.min(maxOff, offset + dy);
+          }
+          if (dy < 0 && canUp()) {
+            e.preventDefault();
+            offset = Math.max(0, offset + dy);
+          }
+          inner.style.transform = `translateY(${-offset}px)`;
+        }
 
-// Touch
-let startY = 0;
-function onTouchStart(e) {
-  if (!isLockedPhase()) return;
-  const t = e.touches && e.touches[0];
-  if (!t) return;
-  startY = t.clientY;
-}
-function onTouchMove(e) {
-  if (!isLockedPhase()) return;
-  const dy = startY - e.touches[0].clientY;
-  if (dy > 0 && canDown()) {
-    e.preventDefault();
-    offset = Math.min(maxOff, offset + dy);
-  }
-  if (dy < 0 && canUp()) {
-    e.preventDefault();
-    offset = Math.max(0, offset + dy);
-  }
-  inner.style.transform = `translateY(${-offset}px)`;
-}
+        // Touch
+        let startY = 0;
+        function onTouchStart(e) {
+          if (!isLockedPhase()) return;
+          const t = e.touches && e.touches[0];
+          if (!t) return;
+          startY = t.clientY;
+        }
+        function onTouchMove(e) {
+          if (!isLockedPhase()) return;
+          const dy = startY - e.touches[0].clientY;
+          if (dy > 0 && canDown()) {
+            e.preventDefault();
+            offset = Math.min(maxOff, offset + dy);
+          }
+          if (dy < 0 && canUp()) {
+            e.preventDefault();
+            offset = Math.max(0, offset + dy);
+          }
+          inner.style.transform = `translateY(${-offset}px)`;
+        }
 
-// Attach globally
-window.addEventListener("wheel", onWheel, { passive: false });
-window.addEventListener("keydown", onKey, { passive: false });
-window.addEventListener("touchstart", onTouchStart, { passive: true });
-window.addEventListener("touchmove", onTouchMove, { passive: false });
+        // Attach globally
+        window.addEventListener("wheel", onWheel, { passive: false });
+        window.addEventListener("keydown", onKey, { passive: false });
+        window.addEventListener("touchstart", onTouchStart, { passive: true });
+        window.addEventListener("touchmove", onTouchMove, { passive: false });
 
         /* Expose a reset function so external code (nav) can restore the schedules scroller */
         window.resetScheduleScroller = function () {
@@ -1206,6 +1216,20 @@ window.addEventListener("touchmove", onTouchMove, { passive: false });
           });
         }
 
+        function scrollToWithLock(
+          scrollToY,
+          { reinforceMs = [240, 520, 900] } = {}
+        ) {
+          window.scrollTo({ top: scrollToY, behavior: "smooth" });
+          // Re-assert the target a few times to fight late reflows (images, fonts).
+          reinforceMs.forEach((ms) => {
+            setTimeout(() => {
+              window.scrollTo({ top: scrollToY, behavior: "auto" });
+              updateActive();
+            }, ms);
+          });
+        }
+
         // Smooth scroll handler for nav clicks
         navLinks.forEach((link) => {
           const text = link.textContent.trim();
@@ -1230,34 +1254,27 @@ window.addEventListener("touchmove", onTouchMove, { passive: false });
             }
 
             const navHeight = getNavHeight();
-            // Default scroll target is the section top; for FAQ, aim at its header
+            // Default scroll target is the section top; for FAQ/Schedule, aim at their headers
             let scrollToY;
-            if (id === "faq") {
-              const header = document.querySelector("#faq .section-title");
+            if (id === "faq" || id === "schedule") {
+              const headerSelector =
+                id === "faq"
+                  ? "#faq .section-title"
+                  : "#schedule .section-title";
+              const header = document.querySelector(headerSelector);
               const aimEl = header || target;
               const aimTop =
                 aimEl.getBoundingClientRect().top + window.pageYOffset;
-              scrollToY = Math.max(0, aimTop - navHeight - 40);
+              scrollToY = Math.max(0, aimTop - navHeight - 44);
             } else {
               const targetDocTop =
                 target.getBoundingClientRect().top + window.pageYOffset;
               scrollToY = Math.max(0, targetDocTop - navHeight - 20);
             }
 
-            window.scrollTo({ top: scrollToY, behavior: "smooth" });
+            scrollToWithLock(scrollToY);
             // For schedule: pre-scroll inner panel so header is already in view
-            if (
-              id === "schedule" &&
-              typeof window.jumpScheduleToHeader === "function"
-            ) {
-              setTimeout(() => {
-                try {
-                  window.jumpScheduleToHeader(navHeight, 20, 0.88);
-                } catch (err) {
-                  /* ignore */
-                }
-              }, 120);
-            }
+            // We no longer pre-scroll the internal schedule panel; keep it at the top.
             history.pushState(null, null, "#" + text.toLowerCase());
             // keep the clicked link active during smooth scroll
             setManualActive(link, 1200);
@@ -1281,37 +1298,22 @@ window.addEventListener("touchmove", onTouchMove, { passive: false });
                 const navHeight = getNavHeight();
                 let scrollToY;
                 if (id === "schedule" || id === "faq") {
-                  if (id === "faq") {
-                    const header = document.querySelector(
-                      "#faq .section-title"
-                    );
-                    const aimEl = header || target;
-                    const aimTop =
-                      aimEl.getBoundingClientRect().top + window.pageYOffset;
-                    scrollToY = Math.max(0, aimTop - navHeight - 40);
-                  } else {
-                    const targetDocTop =
-                      target.getBoundingClientRect().top + window.pageYOffset;
-                    scrollToY = Math.max(0, targetDocTop - navHeight - 20);
-                  }
+                  const headerSelector =
+                    id === "faq"
+                      ? "#faq .section-title"
+                      : "#schedule .section-title";
+                  const header = document.querySelector(headerSelector);
+                  const aimEl = header || target;
+                  const aimTop =
+                    aimEl.getBoundingClientRect().top + window.pageYOffset;
+                  scrollToY = Math.max(0, aimTop - navHeight - 44);
                 } else {
                   const targetDocTop =
                     target.getBoundingClientRect().top + window.pageYOffset;
                   scrollToY = Math.max(0, targetDocTop - navHeight - 20);
                 }
-                window.scrollTo({ top: scrollToY });
-                if (
-                  id === "schedule" &&
-                  typeof window.jumpScheduleToHeader === "function"
-                ) {
-                  setTimeout(() => {
-                    try {
-                      window.jumpScheduleToHeader(navHeight, 20, 0.88);
-                    } catch (err) {
-                      /* ignore */
-                    }
-                  }, 120);
-                }
+                scrollToWithLock(scrollToY);
+                // Keep the schedule panel at its top on load
                 setManualActive(matching, 1000);
               }
             }

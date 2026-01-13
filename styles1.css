@@ -1083,8 +1083,8 @@ section.reef .layer {
   position: absolute;
   right: 4vw;
   /* align near right/center per figma */
-  top: clamp(56vh, 70vh, 80vh);
-  /* starting Y inside the viewport, reduced on large screens to avoid visible gap */
+  top: clamp(2vh, 8vh, 16vh);
+  /* start much higher so the Schedules header is immediately visible under the nav */
   width: min(800px, 80vw);
   /* Keep internal interactions local so page scroll remains smooth */
   overscroll-behavior: contain;
