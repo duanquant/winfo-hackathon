@@ -646,7 +646,7 @@ section[class="2024-winners"] .winner-image-wrapper .caption {
 
 .footer-fish {
   position: absolute;
-  top: 22vh;
+  top: 0vh;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -814,51 +814,61 @@ section[class="2024-winners"] .winner-image-wrapper .caption {
 }
 
 /* responsive tweaks */
-@media (max-width: 720px) {
-  .sponsors-panel {
-    margin: 70px 0 32px;
-  }
+@media (min-width: 769px) and (max-width: 1024px) {
+    .footer {
+        top: 0vh;
+    }
+}
 
-  .footer-inner {
-    width: 90vw;
-    padding-left: 5vw;
-    padding-right: 5vw;
-    text-align: center;
-  }
+@media (max-width: 768px) {
+    .footer {
+        top: 0vh;
+    }
 
-  .footer-divider {
-    margin: 24px 0 18px;
-    /* remove the 70px side margins */
-  }
+    .sponsors-panel {
+        margin: 70px 0 32px;
+    }
 
-  .footer-bottom {
-    margin-left: 0;
-    margin-right: 0;
-    width: 100%;
-  }
+    .footer-inner {
+        width: 90vw;
+        padding-left: 5vw;
+        padding-right: 5vw;
+        text-align: left;
+    }
 
-  /* make "footer-left" behave like a real full-width block */
-  .footer-left {
-    width: 100%;
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
+    .footer-divider {
+        margin: 24px 0 18px;
+        /* remove the 70px side margins */
+    }
 
-  /* socials: smaller + less padding so they feel proportional */
-  .footer .socials {
-    gap: 8px;
-  }
+    .footer-bottom {
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+    }
 
-  .footer .socials a {
-    padding: 4px;
-    /* was 6px 10px */
-  }
+    /* make "footer-left" behave like a real full-width block */
+    .footer-left {
+        width: 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
 
-  .footer .socials img {
-    width: 22px;
-    height: 22px;
-    display: block;
-  }
+    /* socials: smaller + less padding so they feel proportional */
+    .footer .socials {
+        gap: 8px;
+    }
+
+    .footer .socials a {
+        padding: 4px;
+        /* was 6px 10px */
+    }
+
+    .footer .socials img {
+        width: 22px;
+        height: 22px;
+        display: block;
+    }
 }
 
 .about-seal-adults {

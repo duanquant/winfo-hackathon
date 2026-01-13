@@ -1559,7 +1559,7 @@ original normal lines to separate time/event rows:
 
 .footer-fish {
   position: absolute;
-  top: 22vh;
+  top: 0vh;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -1736,7 +1736,7 @@ original normal lines to separate time/event rows:
     width: 90vw;
     padding-left: 5vw;
     padding-right: 5vw;
-    text-align: center;
+    text-align: left;
   }
 
   .footer-divider {
@@ -2261,7 +2261,7 @@ original normal lines to separate time/event rows:
   }
 
   .footer-fish {
-    top: 10vh;
+    top: 0vh;
   }
 
   .footer-sand {
@@ -2611,7 +2611,7 @@ original normal lines to separate time/event rows:
   }
   
   .footer-fish {
-    top: 7vh;
+    top: 0vh;
   }
 
   .footer-sand {
