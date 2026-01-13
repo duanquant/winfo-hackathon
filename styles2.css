@@ -1070,7 +1070,9 @@ section[class="2024-winners"] .winner-image-wrapper .caption {
         backdrop-filter: none;
         box-shadow: none;
     }
-    .nav-toggle .hamburger-icon { width: 22px; height: 22px; display: block; margin-left: var(--nav-x-offset); }
+    .nav-toggle .hamburger-icon { width: 22px; height: 22px; display: block; margin-left: var(--nav-x-offset); transform: scale(1); }
+    .nav-toggle .hamburger-icon { transition: opacity 0.6s ease-in-out, transform 0.5s ease; }
+    .nav-toggle .hamburger-icon.icon-fade { opacity: 0; transform: scale(0.92); }
     .nav-toggle .hamburger { display: none; width: 22px; height: 22px; position: relative; margin-left: var(--nav-x-offset); }
     .nav-toggle .hamburger span { display: block; width: 22px; height: 2px; background: #0b3039; border-radius: 2px; transition: transform .2s ease, opacity .2s ease; }
     .nav-toggle .hamburger span + span { margin-top: 6px; }

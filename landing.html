@@ -926,6 +926,9 @@
           btn.setAttribute("aria-expanded", "false");
           document.documentElement.classList.remove("nav-open");
           if (backdrop) backdrop.style.pointerEvents = "none";
+          if (typeof window.updateLandingNavInvert === "function") {
+            window.updateLandingNavInvert();
+          }
         }
         function toggleNav() {
           const expanded = btn.getAttribute("aria-expanded") === "true";
@@ -1330,44 +1333,79 @@
         const nav = document.querySelector(".nav");
         if (!nav) return;
         const wrapper = document.querySelector(".nav-wrapper") || nav;
-        function getEffectiveBg(el) {
-          while (el && el !== document.documentElement) {
-            const cs = getComputedStyle(el);
-            const bg = cs.backgroundColor;
-            if (bg && bg !== "rgba(0, 0, 0, 0)" && bg !== "transparent")
-              return bg;
-            el = el.parentElement;
+        const hamburgerIcon = document.querySelector(
+          ".nav-toggle .hamburger-icon"
+        );
+        const iconDark = "assets/nav/hamburger.png";
+        const iconLight = "assets/nav/hamburger_light.png";
+
+        function setHamburgerIcon(useLight) {
+          if (!hamburgerIcon) return;
+          const desired = useLight ? iconLight : iconDark;
+          if (hamburgerIcon.getAttribute("src") !== desired) {
+            hamburgerIcon.classList.add("icon-fade");
+            const swap = () => {
+              const handleLoad = () =>
+                hamburgerIcon.classList.remove("icon-fade");
+              hamburgerIcon.addEventListener("load", handleLoad, {
+                once: true,
+              });
+              hamburgerIcon.setAttribute("src", desired);
+              if (hamburgerIcon.complete) {
+                requestAnimationFrame(() =>
+                  hamburgerIcon.classList.remove("icon-fade")
+                );
+              }
+            };
+            requestAnimationFrame(swap);
           }
-          return "rgb(255,255,255)";
         }
-        function rgbBrightness(rgb) {
-          const m = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-          if (!m) return 255;
-          const r = +m[1],
-            g = +m[2],
-            b = +m[3];
-          return 0.2126 * r + 0.7152 * g + 0.0722 * b; // relative luminance
+        const tracksSection = document.querySelector(".tracks");
+        const midnightSection = document.querySelector(".midnight");
+        const oceanBottomSection = document.querySelector(".ocean.bottom");
+        const scheduleBlock = document.getElementById("schedule");
+
+        function containsY(el, y) {
+          if (!el) return false;
+          const r = el.getBoundingClientRect();
+          const top = window.scrollY + r.top;
+          const bottom = window.scrollY + r.bottom;
+          return y >= top && y <= bottom;
         }
+
         function updateInvert() {
-          const rect = nav.getBoundingClientRect();
-          const sampleX = window.innerWidth / 2;
-          const sampleY = rect.bottom + 6; // below nav
-          const el = document.elementFromPoint(sampleX, sampleY);
-          if (!el) {
+          // When the mobile menu is open, keep the dark icon/text to match the overlay
+          if (nav.classList.contains("open")) {
             nav.classList.remove("invert");
             wrapper.classList.remove("invert");
+            setHamburgerIcon(false);
             return;
           }
-          const bg = getEffectiveBg(el);
-          const bright = rgbBrightness(bg);
-          if (bright < 128) {
-            nav.classList.add("invert");
-            wrapper.classList.add("invert");
-          } else {
-            nav.classList.remove("invert");
-            wrapper.classList.remove("invert");
+
+          const rect = nav.getBoundingClientRect();
+          const anchorY = window.scrollY + rect.bottom + 6;
+
+          let inDark = false;
+          if (tracksSection && midnightSection) {
+            const tracksTop =
+              window.scrollY + tracksSection.getBoundingClientRect().top;
+            const midnightBottom =
+              window.scrollY + midnightSection.getBoundingClientRect().bottom;
+            // Start light-mode invert at the tracks (reef ends here) through midnight zone.
+            inDark = anchorY >= tracksTop && anchorY <= midnightBottom;
           }
+
+          // CTA (ocean bottom) is also dark.
+          if (!inDark && containsY(oceanBottomSection, anchorY)) {
+            inDark = true;
+          }
+
+          nav.classList.toggle("invert", inDark);
+          wrapper.classList.toggle("invert", inDark);
+          setHamburgerIcon(inDark);
         }
+        // expose for other scripts (nav toggle) to call after closing
+        window.updateLandingNavInvert = updateInvert;
         let ticking = false;
         window.addEventListener(
           "scroll",

@@ -605,6 +605,34 @@
         if (!nav) return;
         const wrapper = document.querySelector(".nav-wrapper") || nav;
 
+        const hamburgerIcon = document.querySelector(
+          ".nav-toggle .hamburger-icon"
+        );
+        const iconDark = "assets/nav/hamburger.png";
+        const iconLight = "assets/nav/hamburger_light.png";
+
+        function setHamburgerIcon(useLight) {
+          if (!hamburgerIcon) return;
+          const desired = useLight ? iconLight : iconDark;
+          if (hamburgerIcon.getAttribute("src") !== desired) {
+            hamburgerIcon.classList.add("icon-fade");
+            const swap = () => {
+              const handleLoad = () =>
+                hamburgerIcon.classList.remove("icon-fade");
+              hamburgerIcon.addEventListener("load", handleLoad, {
+                once: true,
+              });
+              hamburgerIcon.setAttribute("src", desired);
+              if (hamburgerIcon.complete) {
+                requestAnimationFrame(() =>
+                  hamburgerIcon.classList.remove("icon-fade")
+                );
+              }
+            };
+            requestAnimationFrame(swap);
+          }
+        }
+
         // Key visual regions on the About page
         const hero = document.querySelector("header.hero.about");
         const orcasUnder = document.querySelector(".about-orcas-under");
@@ -655,6 +683,7 @@
           const invert = theme === "dark";
           nav.classList.toggle("invert", invert);
           wrapper.classList.toggle("invert", invert);
+          setHamburgerIcon(invert);
         }
 
         let ticking = false;

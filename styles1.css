@@ -1901,6 +1901,14 @@ original normal lines to separate time/event rows:
     height: 22px;
     display: block;
     margin-left: var(--nav-x-offset);
+    transform: scale(1);
+    transition: opacity 0.6s ease-in-out, transform 0.5s ease;
+  }
+
+  /* soft fade when swapping light/dark assets */
+  .nav-toggle .hamburger-icon.icon-fade {
+    opacity: 0;
+    transform: scale(0.92);
   }
 
   .nav-toggle .hamburger {
