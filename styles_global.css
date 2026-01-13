@@ -165,8 +165,6 @@ a {
 
 /* Tablet: 600px–1024px */
 @media (min-width: 600px) and (max-width: 1024px) {
-  p {
-    font-size: 18px;
-  }
+  
 
 }
