@@ -1189,11 +1189,11 @@ section[class="2024-winners"] .winner-image-wrapper .caption {
     /* Gradients for mobile */
     .about-gradient-bg {
         top: calc(var(--about-mountain-top) + var(--about-mountain-height) - var(--about-horizon-overlap) + 100vw * 3.5);
-        height: calc(133vw * 5.2 - 100vw * 3.3);
+        height: calc(143vw * 5.2 - 100vw * 3.3);
     }
     
     .about-orcas-under {
-        top: calc(var(--about-mountain-top) + var(--about-mountain-height) - var(--about-horizon-overlap) + 133vw * 5.2);
+        top: calc(var(--about-mountain-top) + var(--about-mountain-height) - var(--about-horizon-overlap) + 143vw * 5.2);
     }
     
     .gradient-bg-2.about-gradient-bg-2 {
@@ -1202,7 +1202,7 @@ section[class="2024-winners"] .winner-image-wrapper .caption {
     }
     
     .about-color-block-left {
-        top: calc(var(--about-mountain-top) + var(--about-mountain-height) - var(--about-horizon-overlap) + 129.3vw * 5.5);
+        top: calc(var(--about-mountain-top) + var(--about-mountain-height) - var(--about-horizon-overlap) + 138.8vw * 5.5);
         height: clamp(20px, 5vw, 30px);
     }
     
@@ -1254,7 +1254,7 @@ section[class="2024-winners"] .winner-image-wrapper .caption {
     
     /* Winners section for mobile */
     section[class="2024-winners"] .winners-section {
-        top: calc(var(--about-mountain-top) + var(--about-mountain-height) - var(--about-horizon-overlap) + 115vw * 6.7);
+        top: calc(var(--about-mountain-top) + var(--about-mountain-height) - var(--about-horizon-overlap) + 122vw * 6.7);
         width: 90vw;
         padding: 0 1rem;
     }
