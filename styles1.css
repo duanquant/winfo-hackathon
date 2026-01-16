@@ -104,6 +104,7 @@ body.bg-desktop {
   body.bg-desktop {
     background: url("assets/background/bg-mobile.png") center top/cover no-repeat;
     background-color: #6bbbd1;
+    /* background: linear-gradient(to bottom, #ffffff, #6bbbd1); */
   }
 }
 
