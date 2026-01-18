@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -596,7 +596,7 @@
         const wrapper = document.querySelector(".nav-wrapper") || nav;
 
         const hamburgerIcon = document.querySelector(
-          ".nav-toggle .hamburger-icon"
+          ".nav-toggle .hamburger-icon",
         );
         const iconDark = "assets/nav/hamburger.png";
         const iconLight = "assets/nav/hamburger_light.png";
@@ -615,7 +615,7 @@
               hamburgerIcon.setAttribute("src", desired);
               if (hamburgerIcon.complete) {
                 requestAnimationFrame(() =>
-                  hamburgerIcon.classList.remove("icon-fade")
+                  hamburgerIcon.classList.remove("icon-fade"),
                 );
               }
             };
@@ -628,7 +628,7 @@
         const orcasUnder = document.querySelector(".about-orcas-under");
         const grad1 = document.querySelector(".about-gradient-bg");
         const grad2 = document.querySelector(
-          ".gradient-bg-2.about-gradient-bg-2"
+          ".gradient-bg-2.about-gradient-bg-2",
         );
         const footer = document.querySelector(".footer");
 
@@ -698,7 +698,7 @@
       (function () {
         const navLinks = document.querySelectorAll(".nav a.nav-item");
         const aboutLink = Array.from(navLinks).find(
-          (l) => l.textContent.trim() === "About"
+          (l) => l.textContent.trim() === "About",
         );
         if (aboutLink) {
           aboutLink.classList.add("active");

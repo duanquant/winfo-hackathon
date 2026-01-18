@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -112,7 +112,7 @@
 
       <!-- intro -->
       <div class="intro">
-        <h2>Women of Informatics' 14th Annual Hackathon</h2>
+        <h2>Women in Informatics' 14th Annual Hackathon</h2>
         <div class="meta">
           <img class="date-icon" src="assets/hero/date.svg" alt="" />
           <span><strong>January 24–25, 2026</strong></span>
@@ -1099,7 +1099,7 @@
         window.jumpScheduleToHeader = function (
           navHeight = 0,
           margin = 20,
-          ratio = 0.86
+          ratio = 0.86,
         ) {
           try {
             recalc();
@@ -1107,7 +1107,7 @@
             // up near the nav line without altering CSS.
             const desired = Math.max(
               0,
-              Math.round(window.innerHeight * ratio - (navHeight + margin))
+              Math.round(window.innerHeight * ratio - (navHeight + margin)),
             );
             offset = Math.max(0, Math.min(maxOff, desired));
             inner.style.transform = `translateY(${-offset}px)`;
@@ -1221,7 +1221,7 @@
 
         function scrollToWithLock(
           scrollToY,
-          { reinforceMs = [240, 520, 900] } = {}
+          { reinforceMs = [240, 520, 900] } = {},
         ) {
           window.scrollTo({ top: scrollToY, behavior: "smooth" });
           // Re-assert the target a few times to fight late reflows (images, fonts).
@@ -1292,7 +1292,7 @@
           const hash = window.location.hash.slice(1).toLowerCase();
           if (hash) {
             const matching = Array.from(navLinks).find(
-              (l) => l.textContent.trim().toLowerCase() === hash
+              (l) => l.textContent.trim().toLowerCase() === hash,
             );
             if (matching) {
               const id = navToSectionMap[matching.textContent.trim()];
@@ -1334,7 +1334,7 @@
         if (!nav) return;
         const wrapper = document.querySelector(".nav-wrapper") || nav;
         const hamburgerIcon = document.querySelector(
-          ".nav-toggle .hamburger-icon"
+          ".nav-toggle .hamburger-icon",
         );
         const iconDark = "assets/nav/hamburger.png";
         const iconLight = "assets/nav/hamburger_light.png";
@@ -1353,7 +1353,7 @@
               hamburgerIcon.setAttribute("src", desired);
               if (hamburgerIcon.complete) {
                 requestAnimationFrame(() =>
-                  hamburgerIcon.classList.remove("icon-fade")
+                  hamburgerIcon.classList.remove("icon-fade"),
                 );
               }
             };
@@ -1418,7 +1418,7 @@
               ticking = true;
             }
           },
-          { passive: true }
+          { passive: true },
         );
         window.addEventListener("resize", updateInvert);
         updateInvert();
@@ -1455,7 +1455,7 @@
           // Calculate time difference
           const days = Math.floor(diff / (1000 * 60 * 60 * 24));
           const hours = Math.floor(
-            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
           );
           const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
           const seconds = Math.floor((diff % (1000 * 60)) / 1000);
